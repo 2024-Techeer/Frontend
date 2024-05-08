@@ -1,5 +1,7 @@
 import BackButton from '../assets/images/BackButton.png';
 import Profile from '../assets/images/Profile.svg';
+import Java from '../assets/images/Java.svg';
+import Python from '../assets/images/Python.svg';
 
 function RecruitmentPage() {
   return (
@@ -17,7 +19,7 @@ function RecruitmentPage() {
         </div>
       </div>
       <div className="border-t border-4 border-[#D9D9D9] flex-grow mb-10"></div>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-3 gap-4 gap-y-10 ml-10">
         <div className="flex flex-row gap-10">
           <div className="text-gray-700 text-">
             <strong>모집 구분</strong>
@@ -44,23 +46,42 @@ function RecruitmentPage() {
         </div>
         <div className="flex flex-row gap-10">
           <div className="text-gray-700 text-">
-            <strong>모집 구분</strong>
+            <strong>진행 방식</strong>
           </div>
           <div className="text-gray-700 text-">
-            <strong>프로젝트</strong>
+            <strong>전체</strong>
           </div>
         </div>
         <div className="flex flex-row gap-10">
           <div className="text-gray-700 text-">
-            <strong>모집 구분</strong>
+            <strong>시작 예정</strong>
           </div>
           <div className="text-gray-700 text-">
-            <strong>프로젝트</strong>
+            <strong>2024.04.19</strong>
           </div>
         </div>
+        <div className="flex flex-row gap-10">
+          <div className="text-gray-700 text-">
+            <strong>예상 기간</strong>
+          </div>
+          <div className="text-gray-700 text-">
+            <strong>3개월</strong>
+          </div>
+        </div>
+        <div className="flex flex-row gap-10">
+          <div className="text-gray-700 text-">
+            <strong>사용 언어</strong>
+          </div>
+          <img src={Java}></img>
+          <img src={Python}></img>
+        </div>
       </div>
-      <div className="flex justify-end mt-8">
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">지원하기</button>
+
+      <div className="border-t border-4 border-[#D9D9D9] flex-grow mt-10"></div>
+      <div className="text-5xl font-bold text-zinc-800 mt-10 ml-20">프로젝트 소개</div>
+      <div className="text-2xl text-zinc-800 mt-10 ml-20">이런 저런 프로젝트 입니다.</div>
+      <div className="flex justify-end">
+        <button className="mt-24 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">지원하기</button>
       </div>
     </div>
   );
