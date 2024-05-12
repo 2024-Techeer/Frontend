@@ -5,7 +5,7 @@ import Python from '../assets/images/Python.svg';
 
 function RecruitmentPage_Oner() {
   return (
-    <div className="bg-white w-screen h-screen  mx-auto p-8 shadow-lg rounded-lg">
+    <div className="bg-white w-full h-full  mx-auto p-8 shadow-lg rounded-lg">
       <button>
         <img src={BackButton}></img>
       </button>
