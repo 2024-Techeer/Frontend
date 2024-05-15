@@ -1,7 +1,8 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import MainPage from './pages/MainPage';
 import RecruitmentPage from './pages/RecruitmentPage';
-import RecruitmentPage_Oner from './pages/RecruitmentPage_Oner';
+import RecruitmentPage_Owner from './pages/RecruitmentPage_Owner';
+import WritePage from './pages/WritePage';
 
 function App() {
   return (
@@ -10,7 +11,8 @@ function App() {
         <Routes>
           <Route path="Main" element={<MainPage />} />
           <Route path="Recruitment" element={<RecruitmentPage />} />
-          <Route path="Recruitment_Oner" element={<RecruitmentPage_Oner />} />
+          <Route path="Recruitment_Owner" element={<RecruitmentPage_Owner />} />
+          <Route path="Write" element={<WritePage />} />
         </Routes>
       </BrowserRouter>
     </>
