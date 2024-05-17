@@ -30,7 +30,7 @@ const Nav: React.FC<NavProps> = ({ items }) => (
   <nav className="flex flex-col grow items-start pt-16 pr-20 pb-11 pl-7 w-full text-xl text-black bg-amber-100 max-md:px-5 max-md:mt-10">
     <h2 className="ml-5 text-4xl font-extrabold uppercase max-md:ml-2.5">마이페이지</h2>
     {items.map((item, index) => (
-      <a key={index} href={item.href} className={`mt-20 ml-7 uppercase max-md:mt-10 max-md:ml-2.5 ${item.text === '프로필' ? 'font-semibold' : 'font-medium'}`}>
+      <a key={index} href={item.href} className={`mt-20 ml-7 uppercase max-md:mt-10 max-md:ml-2.5 ${item.text === '프로필' ? 'font-extrabold' : 'font-medium'}`}>
         {item.text}
       </a>
     ))}
@@ -68,7 +68,7 @@ const Profile: React.FC = () => (
   </section>
 );
 
-const MyComponent: React.FC = () => (
+const MyUserEditPage: React.FC = () => (
   <div className="bg-white">
     <div className="flex gap-5 max-md:flex-col max-md:gap-0">
       <aside className="flex flex-col w-[28%] max-md:ml-0 max-md:w-full">
@@ -81,4 +81,4 @@ const MyComponent: React.FC = () => (
   </div>
 );
 
-export default MyComponent;
+export default MyUserEditPage;
