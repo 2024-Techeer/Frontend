@@ -45,7 +45,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ title, date, keywords }) => (
   </article>
 );
 
-const MyPagePaste: React.FC = () => {
+const MyPastePage: React.FC = () => {
   const projects = [
     { title: "프로젝트1", date: "xx.xx", keywords: ["키워드1", "키워드2"] },
     { title: "프로젝트1", date: "xx.xx", keywords: ["키워드1", "키워드2"] },
@@ -97,4 +97,4 @@ const MyPagePaste: React.FC = () => {
   );
 };
 
-export default MyPagePaste;
+export default MyPastePage;
