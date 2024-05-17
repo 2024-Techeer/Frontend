@@ -45,7 +45,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ title, date, keywords }) => (
   </article>
 );
 
-const MyPastePage: React.FC = () => {
+const MyRecruitmentPaste: React.FC = () => {
   const projects = [
     { title: "프로젝트1", date: "xx.xx", keywords: ["키워드1", "키워드2"] },
     { title: "프로젝트1", date: "xx.xx", keywords: ["키워드1", "키워드2"] },
@@ -61,7 +61,7 @@ const MyPastePage: React.FC = () => {
     <nav className="flex flex-col grow items-start pt-16 pr-20 pb-11 pl-7 w-full text-xl text-black bg-amber-100 max-md:px-5 max-md:mt-10">
       <h2 className="ml-5 text-4xl font-extrabold uppercase max-md:ml-2.5">마이페이지</h2>
       {items.map((item, index) => (
-        <a key={index} href={item.href} className={`mt-20 ml-7 uppercase max-md:mt-10 max-md:ml-2.5 ${item.text === '내가 쓴 글' ? 'font-extrabold' : 'font-medium'}`}>
+        <a key={index} href={item.href} className={`mt-20 ml-7 uppercase max-md:mt-10 max-md:ml-2.5 ${item.text === '내가 신청한 글' ? 'font-extrabold' : 'font-medium'}`}>
           {item.text}
         </a>
       ))}
@@ -77,7 +77,7 @@ const MyPastePage: React.FC = () => {
         </aside>
         <main className="flex flex-col ml-5 w-[76%] max-md:ml-0 max-md:w-full">
           <header className="flex flex-col px-5 mt-24 max-md:mt-10 max-md:max-w-full">
-            <h1 className="text-5xl font-extrabold text-black uppercase max-md:max-w-full max-md:text-4xl"> (ID) 님이 쓴 글 </h1>
+            <h1 className="text-5xl font-extrabold text-black uppercase max-md:max-w-full max-md:text-4xl"> (ID) 님이 신청한 글 </h1>
           </header>
           <section className="mt-20 max-md:pr-5 max-md:mt-10 max-md:max-w-full">
             <div className="flex gap-5 max-md:flex-col max-md:gap-0">
@@ -97,4 +97,4 @@ const MyPastePage: React.FC = () => {
   );
 };
 
-export default MyPastePage;
+export default MyRecruitmentPaste;

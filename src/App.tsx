@@ -4,6 +4,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import MyUserEditPage from './pages/MyUserEditPage';
 import MyPastePage from './pages/MyPastePage';
+import MyRecruitmentPage from './pages/MyRecruitmentPage';
 import RecruitmentPage from './pages/RecruitmentPage';
 import RecruitmentPage_Owner from './pages/RecruitmentPage_Owner';
 import WritePage from './pages/WritePage';
@@ -18,6 +19,7 @@ function App() {
           <Route path="Register" element={<RegisterPage />} />
           <Route path="MyUserEdit" element={<MyUserEditPage />} />
           <Route path="MyPaste" element={<MyPastePage />} />
+          <Route path="MyRecruitment" element={<MyRecruitmentPage />} />
           <Route path="Recruitment" element={<RecruitmentPage />} />
           <Route path="Recruitment_Owner" element={<RecruitmentPage_Owner />} />
           <Route path="Write" element={<WritePage />} />
