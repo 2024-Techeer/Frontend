@@ -27,7 +27,7 @@ const LoginPage: React.FC = () => {
         <form className="w-full">
           <InputField label="아이디" placeholder="아이디를 입력해주세요." />
           <InputField label="비밀번호" placeholder="비밀번호를 입력해주세요." />
-          <div className="flex justify-center w-full"> {/* 로그인 버튼을 가운데 정렬하기 위해 별도의 div로 감쌉니다. */}
+          <div className="flex justify-center w-full">
             <button
               type="submit"
               className="px-16 py-5 mt-14 text-4xl text-center text-yellow-600 bg-orange-200 rounded-2xl max-md:px-5 max-md:mt-10"
