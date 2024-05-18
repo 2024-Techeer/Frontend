@@ -8,6 +8,8 @@ import MyRecruitmentPage from './pages/MyRecruitmentPage';
 import RecruitmentPage from './pages/RecruitmentPage';
 import RecruitmentPage_Owner from './pages/RecruitmentPage_Owner';
 import WritePage from './pages/WritePage';
+import ApplicationPage from './pages/ApplicationPage';  // Import 추가
+
 
 function App() {
   return (
@@ -23,6 +25,7 @@ function App() {
           <Route path="Recruitment" element={<RecruitmentPage />} />
           <Route path="Recruitment_Owner" element={<RecruitmentPage_Owner />} />
           <Route path="Write" element={<WritePage />} />
+          <Route path="Application" element={<ApplicationPage />} />
         </Routes>
       </BrowserRouter>
     </>
