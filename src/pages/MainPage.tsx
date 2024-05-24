@@ -1,3 +1,5 @@
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Arrow from '../assets/images/Arrow.svg';
 import expand from '../assets/images/expand.svg';
 import Project from '../assets/images/Project.svg';
@@ -5,13 +7,64 @@ import Study from '../assets/images/Study.svg';
 import Python from '../assets/images/Python.svg';
 
 function MainPage() {
+  const [recruitments, setRecruitments] = useState([]);
+  const [showPositionOptions, setShowPositionOptions] = useState(false);
+  const [showTechStackOptions, setShowTechStackOptions] = useState(false);
+  const [searchText, setSearchText] = useState('');
+
+  const fetchRecruitments = async () => {
+    const url = `http://localhost:8085/api/v1/recruitments?timestamp=${new Date().getTime()}`;
+    try {
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Cache-Control': 'no-cache',
+          Authorization:
+            'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0MUBnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNzE2NTU4MzY2fQ.2xsWjZBtjPWYd_P6-f2y1vOZH4Z1MG-95ccQLX0bGCpIoqwpycpQ0tnV_p5cIaGRMyhxTjWA7C4Y_-YN8MICOw',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      console.log('Fetched recruitments:', data);
+      setRecruitments(data);
+    } catch (error) {
+      console.error('Fetch operation failed:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchRecruitments();
+  }, []);
+
+  const togglePositionOptions = () => {
+    setShowPositionOptions(!showPositionOptions);
+  };
+
+  const toggleTechStackOptions = () => {
+    setShowTechStackOptions(!showTechStackOptions);
+  };
+
+  const handleSearchChange = (event: { target: { value: React.SetStateAction<string> } }) => {
+    setSearchText(event.target.value);
+  };
+
   return (
     <div className="flex flex-col items-center pt-7 bg-white shadow-sm">
       <div className="flex gap-5 px-5 w-full text-black whitespace-nowrap max-w-[1376px] max-md:flex-wrap max-md:max-w-full">
-        <div className="flex-auto text-6xl max-md:text-4xl">HOLA</div>
+        <Link to="/main" className="flex-auto text-6xl max-md:text-4xl">
+          HOLA
+        </Link>
         <div className="flex gap-5 my-auto text-4xl font-bold">
-          <div className="flex-auto">로그인</div>
-          <div className="flex-auto">회원가입</div>
+          <Link to="/login" className="flex-auto">
+            로그인
+          </Link>
+          <Link to="/register" className="flex-auto">
+            회원가입
+          </Link>
         </div>
       </div>
       <div className="self-stretch mt-6 w-full bg-zinc-300 min-h-[4px] max-md:max-w-full" />
@@ -25,121 +78,88 @@ function MainPage() {
           <div className="flex-auto">스터디</div>
         </div>
         <div className="flex gap-5 items-start mt-8 w-full font-bold text-black max-md:flex-wrap max-md:max-w-full">
-          <div className="flex flex-1 gap-5  mt-3 text-2xl">
-            <div className="flex gap-5 items-start px-4 pt-3 whitespace-nowrap bg-amber-400 border border-black border-solid rounded-[50px]">
+          <div className="relative flex flex-1 gap-5 mt-3 text-2xl">
+            <div
+              className="flex gap-5 items-start px-4 pt-3 whitespace-nowrap bg-amber-400 border border-black border-solid rounded-[50px] cursor-pointer"
+              onClick={togglePositionOptions}
+            >
               <div>포지션</div>
               <img loading="lazy" src={Arrow} className="shrink-0 aspect-square w-[30px]" />
             </div>
-            <div className="flex gap-5 px-4 py-3 bg-amber-400 border border-black border-solid rounded-[50px]">
+            {showPositionOptions && (
+              <div className="absolute top-14 left-0 bg-white border border-black rounded-lg shadow-lg z-10">
+                <div className="p-2">프론트엔드</div>
+                <div className="p-2">백엔드</div>
+                <div className="p-2">풀스택</div>
+              </div>
+            )}
+            <div
+              className="flex gap-5 px-4 py-3 bg-amber-400 border border-black border-solid rounded-[50px] cursor-pointer"
+              onClick={toggleTechStackOptions}
+            >
               <div className="my-auto">기술 스택</div>
               <img loading="lazy" src={Arrow} className="shrink-0 aspect-square w-[30px]" />
             </div>
+            {showTechStackOptions && (
+              <div className="absolute top-14 left-40 bg-white border border-black rounded-lg shadow-lg z-10">
+                <div className="p-2">리액트</div>
+                <div className="p-2">자바</div>
+                <div className="p-2">파이썬</div>
+              </div>
+            )}
           </div>
           <div className="flex gap-5 px-5 mt-3 py-3 text-2xl bg-amber-400 border border-black border-solid rounded-[50px]">
             <img loading="lazy" src={expand} className="shrink-0 aspect-square w-[30px]" />
-            <div className="flex-auto">제목, 글 내용을 검색해보세요.</div>
+            <input
+              type="text"
+              value={searchText}
+              onChange={handleSearchChange}
+              className="flex-auto bg-amber-400 border-none outline-none"
+              placeholder="제목, 글 내용을 검색해보세요."
+            />
           </div>
         </div>
         <div className="px-5 mt-7 max-md:max-w-full">
           <div className="flex gap-5 max-md:flex-col max-md:gap-0">
-            <div className="flex flex-col w-3/12 max-md:ml-0 max-md:w-full">
-              <div className="flex flex-col grow px-7 pt-7 pb-4 mx-auto w-full bg-white rounded-3xl border border-black border-solid max-md:px-5 max-md:mt-10">
-                <div className="flex gap-2.5 items-start px-6 py-0.5 text-base font-bold text-black whitespace-nowrap bg-yellow-100 rounded-[50px] max-md:px-5">
-                  <img loading="lazy" src={Study} className="shrink-0 self-start aspect-[0.93] w-[30px]" />
-                  <div className="flex-auto my-auto">스터디</div>
+            {recruitments.length > 0 ? (
+              recruitments.map((recruitment) => (
+                <div key={recruitment.id} className="flex flex-col w-3/12 max-md:ml-0 max-md:w-full">
+                  <div className="flex flex-col grow px-7 pt-7 pb-4 mx-auto w-full bg-white rounded-3xl border border-black border-solid max-md:px-5 max-md:mt-10">
+                    <div className="flex gap-2.5 items-start px-6 py-0.5 text-base font-bold text-black whitespace-nowrap bg-yellow-100 rounded-[50px] max-md:px-5">
+                      <img
+                        loading="lazy"
+                        src={recruitment.type === 'study' ? Study : Project}
+                        className="shrink-0 self-start aspect-[0.93] w-[30px]"
+                      />
+                      <div className="flex-auto my-auto">{recruitment.type}</div>
+                    </div>
+                    <div className="mt-6 text-base font-bold text-black">
+                      마감일 | <span className="">{new Date(recruitment.deadline).toLocaleDateString()}</span>
+                    </div>
+                    <div className="mt-6 text-base font-bold text-black max-md:mr-1.5">{recruitment.title}</div>
+                    <div className="justify-center px-6 py-2 mt-6 text-base font-bold text-blue-600 whitespace-nowrap bg-zinc-300 rounded-[50px] max-md:px-5">
+                      전체
+                    </div>
+                    <div className="flex gap-3.5 mt-3 max-md:pr-5">
+                      {recruitment.techStacks.map((tech, index) => (
+                        <div
+                          key={index}
+                          className="shrink-0 aspect-square w-[25px] bg-gray-200 rounded-full flex items-center justify-center"
+                        >
+                          {tech}
+                        </div>
+                      ))}
+                    </div>
+                    <div className="shrink-0 mt-4 h-0.5 border-2 border-solid bg-zinc-300 border-zinc-300 w-[193px] max-md:mr-1.5" />
+                    <div className="z-10 shrink-0 h-0.5 border-2 border-solid bg-zinc-300 border-zinc-300 w-[193px] max-md:mr-1.5" />
+                    <div className="self-end mt-2 text-base font-bold text-black">User ID: {recruitment.userId}</div>
+                  </div>
                 </div>
-                <div className="mt-6 text-base font-bold text-black">
-                  마감일 | <span className="">2024.04.05</span>
-                </div>
-                <div className="mt-6 text-base font-bold text-black max-md:mr-1.5">
-                  [맞춤형 IT 취업 및 창업 스터디] 함께 하는 실전 준비
-                </div>
-                <div className="justify-center px-6 py-2 mt-6 text-base font-bold text-blue-600 whitespace-nowrap bg-zinc-300 rounded-[50px] max-md:px-5">
-                  전체
-                </div>
-                <div className="flex gap-3.5 mt-3 max-md:pr-5">
-                  <img loading="lazy" src={Python} className="shrink-0 aspect-square w-[25px]" />
-                  <img loading="lazy" src={Python} className="shrink-0 aspect-square w-[25px]" />
-                </div>
-                <div className="shrink-0 mt-4 h-0.5 border-2 border-solid bg-zinc-300 border-zinc-300 w-[193px] max-md:mr-1.5" />
-                <div className="z-10 shrink-0 h-0.5 border-2 border-solid bg-zinc-300 border-zinc-300 w-[193px] max-md:mr-1.5" />
-                <div className="self-end mt-2 text-base font-bold text-black">정세훈</div>
-              </div>
-            </div>
-            <div className="flex flex-col ml-5 w-3/12 max-md:ml-0 max-md:w-full">
-              <div className="flex flex-col grow px-6 py-5 mx-auto w-full text-base font-bold text-black bg-white rounded-3xl border border-black border-solid max-md:px-5 max-md:mt-10">
-                <div className="flex gap-1.5 px-5 py-1.5 whitespace-nowrap bg-blue-200 rounded-[50px]">
-                  <img loading="lazy" src={Project} className="shrink-0 aspect-square w-[25px]" />
-                  <div className="flex-auto my-auto">프로젝트</div>
-                </div>
-                <div className="mt-7">
-                  마감일 | <span className="">2024.04.05</span>
-                </div>
-                <div className="mt-7 max-md:mr-1.5 max-md:ml-1">
-                  [맞춤형 IT 취업 및 창업 스터디] 함께 하는 실전 준비
-                </div>
-                <div className="justify-center px-4 py-2 mt-7 text-amber-500 whitespace-nowrap bg-zinc-300 rounded-[50px]">
-                  프론트엔드
-                </div>
-                <img loading="lazy" src={Project} className="mt-2 ml-2.5 aspect-square w-[25px]" />
-                <div className="shrink-0 mt-4 h-0.5 border-2 border-solid bg-zinc-300 border-zinc-300" />
-                <div className="self-end mt-2">정세훈</div>
-              </div>
-            </div>
-            <div className="flex flex-col ml-5 w-3/12 max-md:ml-0 max-md:w-full">
-              <div className="flex flex-col grow px-7 pt-7 pb-4 mx-auto w-full bg-white rounded-3xl border border-black border-solid max-md:px-5 max-md:mt-10">
-                <div className="flex gap-2.5 items-start px-6 py-0.5 text-base font-bold text-black whitespace-nowrap bg-yellow-100 rounded-[50px] max-md:px-5">
-                  <img loading="lazy" src={Study} className="shrink-0 self-start aspect-[0.93] w-[30px]" />
-                  <div className="flex-auto my-auto">스터디</div>
-                </div>
-                <div className="mt-6 text-base font-bold text-black">
-                  마감일 | <span className="">2024.04.05</span>
-                </div>
-                <div className="mt-6 text-base font-bold text-black max-md:mr-1.5">
-                  [맞춤형 IT 취업 및 창업 스터디] 함께 하는 실전 준비
-                </div>
-                <div className="justify-center px-6 py-2 mt-6 text-base font-bold text-blue-600 whitespace-nowrap bg-zinc-300 rounded-[50px] max-md:px-5">
-                  전체
-                </div>
-                <div className="flex gap-3.5 mt-3 max-md:pr-5">
-                  <img loading="lazy" src={Python} className="shrink-0 aspect-square w-[25px]" />
-                  <img loading="lazy" src={Python} className="shrink-0 aspect-square w-[25px]" />
-                </div>
-                <div className="shrink-0 mt-4 h-0.5 border-2 border-solid bg-zinc-300 border-zinc-300 w-[193px] max-md:mr-1.5" />
-                <div className="z-10 shrink-0 h-0.5 border-2 border-solid bg-zinc-300 border-zinc-300 w-[193px] max-md:mr-1.5" />
-                <div className="self-end mt-2 text-base font-bold text-black">정세훈</div>
-              </div>
-            </div>
-            <div className="flex flex-col ml-5 w-3/12 max-md:ml-0 max-md:w-full">
-              <div className="flex flex-col grow px-6 py-5 mx-auto w-full bg-white rounded-3xl border border-black border-solid max-md:px-5 max-md:mt-10">
-                <div className="flex gap-1.5 px-5 py-1.5 text-base font-bold text-black whitespace-nowrap bg-blue-200 rounded-[50px]">
-                  <img loading="lazy" src={Project} className="shrink-0 aspect-square w-[25px]" />
-                  <div className="flex-auto my-auto">프로젝트</div>
-                </div>
-                <div className="mt-7 text-base font-bold text-black">
-                  마감일 | <span className="">2024.04.05</span>
-                </div>
-                <div className="mt-7 text-base font-bold text-black max-md:mr-1.5 max-md:ml-1">
-                  [맞춤형 IT 취업 및 창업 스터디] 함께 하는 실전 준비
-                </div>
-                <div className="justify-center items-start px-4 py-2 mt-7 text-base font-bold text-orange-600 whitespace-nowrap bg-zinc-300 rounded-[50px] max-md:pr-5">
-                  백엔드
-                </div>
-                <div className="flex gap-1.5 mt-2 max-md:pr-5">
-                  <img loading="lazy" src={Python} className="shrink-0 aspect-square w-[25px]" />
-                  <img loading="lazy" src={Python} className="shrink-0 aspect-square w-[25px]" />
-                </div>
-                <div className="shrink-0 mt-4 h-0.5 border-2 border-solid bg-zinc-300 border-zinc-300" />
-                <div className="self-end mt-2 text-base font-bold text-black">정세훈</div>
-              </div>
-            </div>
+              ))
+            ) : (
+              <div className="text-center w-full">모집글이 없습니다.</div>
+            )}
           </div>
-        </div>
-        <div className="flex gap-5 justify-between px-5 mt-20 max-md:flex-wrap max-md:mt-10 max-md:max-w-full">
-          <div className="shrink-0 max-w-full bg-white rounded-3xl border border-black border-solid h-[49px] w-[259px]" />
-          <div className="shrink-0 max-w-full bg-white rounded-3xl border border-black border-solid h-[49px] w-[259px]" />
-          <div className="shrink-0 max-w-full bg-white rounded-3xl border border-black border-solid h-[49px] w-[259px]" />
-          <div className="shrink-0 max-w-full bg-white rounded-3xl border border-black border-solid h-[49px] w-[259px]" />
         </div>
       </div>
     </div>

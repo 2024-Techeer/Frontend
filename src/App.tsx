@@ -8,8 +8,7 @@ import MyRecruitmentPage from './pages/MyRecruitmentPage';
 import RecruitmentPage from './pages/RecruitmentPage';
 import RecruitmentPage_Owner from './pages/RecruitmentPage_Owner';
 import WritePage from './pages/WritePage';
-import ApplicationPage from './pages/ApplicationPage';  // Import 추가
-
+import ApplicationPage from './pages/ApplicationPage'; // Import 추가
 
 function App() {
   return (
