@@ -13,14 +13,14 @@ function MainPage() {
   const [searchText, setSearchText] = useState('');
 
   const fetchRecruitments = async () => {
-    const url = `http://localhost:8085/api/v1/recruitments?timestamp=${new Date().getTime()}`;
+    const url = `http://localhost:8085/api/v1/recruitments`;
+    const token = localStorage.getItem('access_token');
     try {
       const response = await fetch(url, {
         method: 'GET',
         headers: {
           'Cache-Control': 'no-cache',
-          Authorization:
-            'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0MUBnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNzE2NTU4MzY2fQ.2xsWjZBtjPWYd_P6-f2y1vOZH4Z1MG-95ccQLX0bGCpIoqwpycpQ0tnV_p5cIaGRMyhxTjWA7C4Y_-YN8MICOw',
+          Authorization: `Bearer ${token}`,
         },
       });
 
