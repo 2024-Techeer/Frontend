@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 
-const FileUploadForm = () => {
-  const [title, setTitle] = useState<string>(''); // 파일의 제목을 저장
+const FileUploadForm = ({ onChange }) => {
+  const [title, setTitle] = useState<string>(''); 
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value); // 제목 입력 필드의 변경을 처리
+    setTitle(event.target.value);
+    onChange({ title: event.target.value }); // 부모 컴포넌트에 변경 사항을 전달
   };
 
   return (

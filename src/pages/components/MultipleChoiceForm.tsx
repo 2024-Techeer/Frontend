@@ -5,12 +5,29 @@ interface Option {
   value: string;
 }
 
-const MultipleChoiceForm = () => {
-  const [title, setTitle] = useState<string>(''); // 질문의 제목을 저장
-  const [options, setOptions] = useState<Option[]>([{ id: Date.now(), value: '' }]); // 옵션들을 배열로 저장
+const MultipleChoiceForm = ({ onChange }) => {
+  const [title, setTitle] = useState<string>('');
+  const [options, setOptions] = useState<Option[]>([{ id: Date.now(), value: '' }]);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
+    onChange({ title: event.target.value, options });
+  };
+
+  const handleOptionChange = (index: number, value: string) => {
+    const newOptions = options.map((option, i) => i === index ? { ...option, value } : option);
+    setOptions(newOptions);
+    onChange({ title, options: newOptions });
+  };
+
+  const addOption = () => {
+    setOptions([...options, { id: Date.now(), value: '' }]);
+  };
+
+  const removeOption = (id: number) => {
+    const newOptions = options.filter(option => option.id !== id);
+    setOptions(newOptions);
+    onChange({ title, options: newOptions });
   };
 
   return (
@@ -32,13 +49,11 @@ const MultipleChoiceForm = () => {
             <input
               type="text"
               value={option.value}
-              onChange={(e) => setOptions(
-                options.map((o, i) => i === index ? { ...o, value: e.target.value } : o)
-              )}
+              onChange={(e) => handleOptionChange(index, e.target.value)}
               placeholder="Option"
               style={{ width: 'calc(100% - 40px)' }}
             />
-            <button onClick={() => setOptions(options.filter(o => o.id !== option.id))} style={{ width: '30px', marginLeft: '10px' }}>
+            <button onClick={() => removeOption(option.id)} style={{ width: '30px', marginLeft: '10px' }}>
               x
             </button>
           </div>
@@ -46,7 +61,7 @@ const MultipleChoiceForm = () => {
       ))}
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <div style={{ width: '80%' }}>
-          <button onClick={() => setOptions([...options, { id: Date.now(), value: '' }])}>Add Option</button>
+          <button onClick={addOption}>Add Option</button>
         </div>
       </div>
     </div>
