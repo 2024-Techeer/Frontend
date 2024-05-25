@@ -24,7 +24,7 @@ function App() {
           <Route path="Recruitment" element={<RecruitmentPage />} />
           <Route path="Recruitment_Owner" element={<RecruitmentPage_Owner />} />
           <Route path="Write" element={<WritePage />} />
-          <Route path="Application" element={<ApplicationPage />} />
+          <Route path="Application/:recruitmentId" element={<ApplicationPage />} />
         </Routes>
       </BrowserRouter>
     </>
