@@ -8,7 +8,7 @@ import MyRecruitmentPage from './pages/MyRecruitmentPage';
 import RecruitmentPage from './pages/RecruitmentPage';
 import RecruitmentPage_Owner from './pages/RecruitmentPage_Owner';
 import WritePage from './pages/WritePage';
-import ApplicationPage from './pages/ApplicationPage'; // Import 추가
+import ApplicationPage from './pages/ApplicationPage';
 import SubmissionPage from './pages/SubmissionPage';
 
 function App() {
@@ -22,7 +22,7 @@ function App() {
           <Route path="MyUserEdit" element={<MyUserEditPage />} />
           <Route path="MyPaste" element={<MyPastePage />} />
           <Route path="MyRecruitment" element={<MyRecruitmentPage />} />
-          <Route path="Recruitment" element={<RecruitmentPage />} />
+          <Route path="Recruitment/:recruitmentId" element={<RecruitmentPage />} />
           <Route path="Recruitment_Owner" element={<RecruitmentPage_Owner />} />
           <Route path="Write" element={<WritePage />} />
           <Route path="Application/:recruitmentId" element={<ApplicationPage />} />

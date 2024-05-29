@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Arrow from '../assets/images/Arrow.svg';
 import expand from '../assets/images/expand.svg';
 import Project from '../assets/images/Project.svg';
@@ -11,6 +11,7 @@ function MainPage() {
   const [showPositionOptions, setShowPositionOptions] = useState(false);
   const [showTechStackOptions, setShowTechStackOptions] = useState(false);
   const [searchText, setSearchText] = useState('');
+  const navigate = useNavigate();
 
   const fetchRecruitments = async () => {
     const url = `http://localhost:8085/api/v1/recruitments`;
@@ -52,17 +53,21 @@ function MainPage() {
     setSearchText(event.target.value);
   };
 
+  const handleRecruitmentClick = (recruitmentId) => {
+    navigate(`/Recruitment/${recruitmentId}`);
+  };
+
   return (
     <div className="flex flex-col items-center pt-7 bg-white shadow-sm">
       <div className="flex gap-5 px-5 w-full text-black whitespace-nowrap max-w-[1376px] max-md:flex-wrap max-md:max-w-full">
-        <Link to="/main" className="flex-auto text-6xl max-md:text-4xl">
+        <Link to="/Main" className="flex-auto text-6xl max-md:text-4xl">
           HOLA
         </Link>
         <div className="flex gap-5 my-auto text-4xl font-bold">
-          <Link to="/login" className="flex-auto">
+          <Link to="/Login" className="flex-auto">
             로그인
           </Link>
-          <Link to="/register" className="flex-auto">
+          <Link to="/Register" className="flex-auto">
             회원가입
           </Link>
         </div>
@@ -123,10 +128,16 @@ function MainPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 max-md:flex-col max-md:gap-0">
             {recruitments.length > 0 ? (
               recruitments.map((recruitment) => (
-                <div key={recruitment.id} className="flex flex-col max-md:ml-0 max-md:w-full">
+                <div
+                  key={recruitment.id}
+                  className="flex flex-col max-md:ml-0 max-md:w-full cursor-pointer"
+                  onClick={() => handleRecruitmentClick(recruitment.id)}
+                >
                   <div className="relative flex flex-col grow px-7 pt-7 pb-4 mx-auto w-full bg-white rounded-3xl border border-black border-solid max-md:px-5 max-md:mt-10">
                     <div
-                      className={`flex gap-2.5 items-start px-6 py-0.5 text-base font-bold text-black whitespace-nowrap bg-yellow-100 rounded-[50px] max-md:px-5 ${recruitment.closing ? 'blur-[1px]' : ''}`}
+                      className={`flex gap-2.5 items-start px-6 py-0.5 text-base font-bold text-black whitespace-nowrap bg-yellow-100 rounded-[50px] max-md:px-5 ${
+                        recruitment.closing ? 'blur-[1px]' : ''
+                      }`}
                     >
                       <img
                         loading="lazy"
@@ -139,12 +150,16 @@ function MainPage() {
                       마감일 | <span className="">{new Date(recruitment.deadline).toLocaleDateString()}</span>
                     </div>
                     <div
-                      className={`mt-6 text-base font-bold text-black max-md:mr-1.5 ${recruitment.closing ? 'blur-[1px]' : ''}`}
+                      className={`mt-6 text-base font-bold text-black max-md:mr-1.5 ${
+                        recruitment.closing ? 'blur-[1px]' : ''
+                      }`}
                     >
                       {recruitment.title}
                     </div>
                     <div
-                      className={`justify-center px-6 py-2 mt-6 text-base font-bold text-blue-600 whitespace-nowrap bg-zinc-300 rounded-[50px] max-md:px-5 ${recruitment.closing ? 'blur-[1px]' : ''}`}
+                      className={`justify-center px-6 py-2 mt-6 text-base font-bold text-blue-600 whitespace-nowrap bg-zinc-300 rounded-[50px] max-md:px-5 ${
+                        recruitment.closing ? 'blur-[1px]' : ''
+                      }`}
                     >
                       전체
                     </div>
@@ -160,7 +175,9 @@ function MainPage() {
                     </div>
 
                     <div
-                      className={`z-10 shrink-0 h-0.5 border-2 border-solid bg-zinc-300 border-zinc-300 w-full max-md:mr-1.5 ${recruitment.closing ? 'blur-[1px]' : ''}`}
+                      className={`z-10 shrink-0 h-0.5 border-2 border-solid bg-zinc-300 border-zinc-300 w-full max-md:mr-1.5 ${
+                        recruitment.closing ? 'blur-[1px]' : ''
+                      }`}
                     />
                     <div
                       className={`self-end mt-2 text-base font-bold text-black ${recruitment.closing ? 'blur-[1px]' : ''}`}
