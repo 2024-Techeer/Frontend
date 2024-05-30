@@ -6,9 +6,9 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { href: '#profile', text: '프로필' },
-  { href: '#my-posts', text: '내가 쓴 글' },
-  { href: '#my-requests', text: '내가 신청한 글' },
+  { href: '/MyUserEdit', text: '프로필' },
+  { href: '/MyPaste', text: '내가 쓴 글' },
+  { href: '/MyRecruitment', text: '내가 신청한 글' },
 ];
 
 interface StackItem {
