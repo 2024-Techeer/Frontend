@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate} from 'react-router-dom';
 import BackButton from '../assets/images/BackButton.png';
 import Profile from '../assets/images/Profile.svg';
 import Java from '../assets/images/Java.svg';
@@ -8,6 +8,7 @@ import Python from '../assets/images/Python.svg';
 function RecruitmentPage() {
   const { recruitmentId } = useParams();
   const [recruitment, setRecruitment] = useState(null);
+  const navigate = useNavigate();
 
   const fetchRecruitment = async () => {
     const url = `http://localhost:8085/api/v1/recruitments/${recruitmentId}`;
@@ -39,6 +40,12 @@ function RecruitmentPage() {
   if (!recruitment) {
     return <div>Loading...</div>;
   }
+
+    // Function to handle the Apply button click
+    const handleApplyClick = () => {
+      navigate(`/Submission/${recruitmentId}`);
+    };
+  
 
   return (
     <div className="flex flex-col items-center pt-7 pb-12 bg-white">
@@ -134,7 +141,7 @@ function RecruitmentPage() {
         <div className="text-5xl font-bold text-zinc-800 mt-10 ml-20">프로젝트 소개</div>
         <div className="text-2xl text-zinc-800 mt-10 ml-20">{recruitment.description}</div>
         <div className="flex justify-end">
-          <button className="mt-24 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          <button className="mt-24 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={handleApplyClick}>
             지원하기
           </button>
         </div>
