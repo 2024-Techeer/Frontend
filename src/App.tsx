@@ -23,7 +23,7 @@ function App() {
           <Route path="MyPaste" element={<MyPastePage />} />
           <Route path="MyRecruitment" element={<MyRecruitmentPage />} />
           <Route path="Recruitment/:recruitmentId" element={<RecruitmentPage />} />
-          <Route path="Recruitment_Owner" element={<RecruitmentPage_Owner />} />
+          <Route path="Recruitment_Owner/:recruitmentId" element={<RecruitmentPage_Owner />} />
           <Route path="Write" element={<WritePage />} />
           <Route path="Application/:recruitmentId" element={<ApplicationPage />} />
           <Route path="Submission/:recruitmentId" element={<SubmissionPage />} />
