@@ -5,6 +5,32 @@ import 'react-quill/dist/quill.snow.css';
 import BackButton from '../assets/images/BackButton.png';
 import Arrow from '../assets/images/Arrow.svg';
 
+import aws from '../assets/images/aws.png';
+import Django from '../assets/images/Django.png';
+import docker from '../assets/images/docker.png';
+import Figma from '../assets/images/Figma.png';
+import Flask from '../assets/images/Flask.png';
+import Flutter from '../assets/images/Flutter.png';
+import Git from '../assets/images/Git.png';
+import Go from '../assets/images/Go.png';
+import JS from '../assets/images/JS.png';
+import Kotiln from '../assets/images/Kotiln.png';
+import kubernetes from '../assets/images/kubernetes.png';
+import MongoDB from '../assets/images/MongoDB.png';
+import MySQL from '../assets/images/MySQl.png';
+import Next from '../assets/images/Next.png';
+import Node from '../assets/images/Node.png';
+import php from '../assets/images/php.png';
+import react from '../assets/images/React.png';
+import ReactNative from '../assets/images/ReactNative.png';
+import Ruby from '../assets/images/Ruby.png';
+import Spring from '../assets/images/Spring.png';
+import SVELTE from '../assets/images/SVELTE.png';
+import Swift from '../assets/images/Swift.png';
+import Ts from '../assets/images/Unity.png';
+import Unity from '../assets/images/Ts.png';
+import Vue from '../assets/images/Vue.png';
+
 function WritePage() {
   const [title, setTitle] = useState('');
   const [type, setType] = useState('프로젝트');
@@ -127,10 +153,31 @@ function WritePage() {
                   onChange={(e) => handleMultiSelectChange(e, setTechStacks)}
                   className="mt-3 p-3 bg-white border border-black border-solid"
                 >
-                  <option value="1">React</option>
-                  <option value="2">Java</option>
-                  <option value="3">Python</option>
-                  <option value="4">Node.js</option>
+                  <option value="1">Spring</option>
+                  <option value="2">Node.js</option>
+                  <option value="3">Django</option>
+                  <option value="4">Flask</option>
+                  <option value="5">Ruby</option>
+                  <option value="6">php</option>
+                  <option value="7">GO</option>
+                  <option value="8">MySQL</option>
+                  <option value="9">MongoDB</option>
+                  <option value="10">JavaScript</option>
+                  <option value="11">TypeScript</option>
+                  <option value="12">React</option>
+                  <option value="13">Vue</option>
+                  <option value="14">SVELTE</option>
+                  <option value="15">Next.js</option>
+                  <option value="16">Flutter</option>
+                  <option value="17">Swift</option>
+                  <option value="18">Kotlin</option>
+                  <option value="19">React Native</option>
+                  <option value="20">Unity</option>
+                  <option value="21">AWS</option>
+                  <option value="22">Docker</option>
+                  <option value="23">Kubernetes</option>
+                  <option value="24">Figma</option>
+                  <option value="25">Git</option>
                 </select>
               </div>
               <div className="flex flex-col">

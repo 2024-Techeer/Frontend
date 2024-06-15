@@ -4,7 +4,60 @@ import Arrow from '../assets/images/Arrow.svg';
 import expand from '../assets/images/expand.svg';
 import Project from '../assets/images/Project.svg';
 import Study from '../assets/images/Study.svg';
-import Python from '../assets/images/Python.svg';
+
+import aws from '../assets/images/aws.png';
+import Django from '../assets/images/Django.png';
+import docker from '../assets/images/docker.png';
+import Figma from '../assets/images/Figma.png';
+import Flask from '../assets/images/Flask.png';
+import Flutter from '../assets/images/Flutter.png';
+import Git from '../assets/images/Git.png';
+import Go from '../assets/images/Go.png';
+import JS from '../assets/images/JS.png';
+import Kotlin from '../assets/images/Kotlin.png';
+import kubernetes from '../assets/images/kubernetes.png';
+import MongoDB from '../assets/images/MongoDB.png';
+import MySQL from '../assets/images/MySQL.png';
+import Next from '../assets/images/Next.png';
+import Node from '../assets/images/Node.png';
+import php from '../assets/images/php.png';
+import react from '../assets/images/React.png';
+import ReactNative from '../assets/images/ReactNative.png';
+import Ruby from '../assets/images/Ruby.png';
+import Spring from '../assets/images/Spring.png';
+import SVELTE from '../assets/images/SVELTE.png';
+import Swift from '../assets/images/Swift.png';
+import Ts from '../assets/images/Ts.png';
+import Unity from '../assets/images/Unity.png';
+import Vue from '../assets/images/Vue.png';
+
+const techStackImages = {
+  Spring,
+  Node: Node,
+  Django,
+  Flask,
+  Ruby,
+  php,
+  Go,
+  MySQL,
+  MongoDB,
+  JavaScript: JS,
+  TypeScript: Ts,
+  React: react,
+  Vue,
+  SVELTE,
+  'Next.js': Next,
+  Flutter,
+  Swift,
+  Kotlin,
+  'React Native': ReactNative,
+  Unity,
+  AWS: aws,
+  Docker: docker,
+  Kubernetes: kubernetes,
+  Figma,
+  Git,
+};
 
 function MainPage() {
   const [recruitments, setRecruitments] = useState([]);
@@ -165,15 +218,14 @@ function MainPage() {
                     </div>
                     <div className={`flex gap-3.5 mt-3 max-md:pr-5 ${recruitment.closing ? 'blur-[1px]' : ''}`}>
                       {recruitment.techStacks.map((tech, index) => (
-                        <div
+                        <img
                           key={index}
+                          src={techStackImages[tech]}
+                          alt={tech}
                           className="shrink-0 aspect-square w-[25px] bg-gray-200 rounded-full flex items-center justify-center"
-                        >
-                          {tech}
-                        </div>
+                        />
                       ))}
                     </div>
-
                     <div
                       className={`z-10 shrink-0 h-0.5 border-2 border-solid bg-zinc-300 border-zinc-300 w-full max-md:mr-1.5 ${
                         recruitment.closing ? 'blur-[1px]' : ''
