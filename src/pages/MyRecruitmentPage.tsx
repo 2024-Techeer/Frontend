@@ -1,4 +1,5 @@
 import * as React from "react";
+import axios from "axios"; // axios 라이브러리를 사용하기 위한 import
 
 interface NavItem {
   href: string;
@@ -6,21 +7,23 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { href: '#profile', text: '프로필' },
-  { href: '#my-posts', text: '내가 쓴 글' },
-  { href: '#my-requests', text: '내가 신청한 글' },
+  { href: '/MyUserEdit', text: '프로필' },
+  { href: '/MyPaste', text: '내가 쓴 글' },
+  { href: '/MyRecruitment', text: '내가 신청한 글' },
 ];
+
 
 interface ProjectCardProps {
   title: string;
   date: string;
-  keywords: string[];
+  positions: string[];
+  type: string;
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ title, date, keywords }) => (
+const ProjectCard: React.FC<ProjectCardProps> = ({ title, date, positions,type }) => (
   <article className="flex flex-col grow items-start pt-5 pr-16 pb-10 pl-6 mx-auto w-full bg-white border-solid border-[3px] border-zinc-500 rounded-[42px] max-md:px-5 max-md:mt-7">
     <header className="justify-center px-3 py-2 text-sm font-medium text-center text-black uppercase whitespace-nowrap bg-orange-200 rounded-[74.5px]">
-      프로젝트
+      { type }
     </header>
     <section className="flex gap-2 items-center mt-3.5 text-xs font-medium uppercase whitespace-nowrap text-neutral-500">
       <time className="self-stretch my-auto">마감일</time>
@@ -31,9 +34,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ title, date, keywords }) => (
       {title}
     </h2>
     <section className="flex gap-1 mt-10 font-medium text-center text-black uppercase whitespace-nowrap max-md:mt-10">
-      {keywords.map((keyword, index) => (
+      {positions.map((position, index) => (
         <span key={index} className="justify-center px-4 py-1.5 text-xs bg-cyan-200 rounded-[74.5px]">
-          {keyword}
+          {position}
         </span>
       ))}
     </section>
@@ -45,19 +48,32 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ title, date, keywords }) => (
   </article>
 );
 
-const MyRecruitmentPaste: React.FC = () => {
-  const projects = [
-    { title: "프로젝트1", date: "xx.xx", keywords: ["키워드1", "키워드2"] },
-    { title: "프로젝트1", date: "xx.xx", keywords: ["키워드1", "키워드2"] },
-    { title: "프로젝트1", date: "xx.xx", keywords: ["키워드1", "키워드2"] },
-    { title: "프로젝트1", date: "xx.xx", keywords: ["키워드1", "키워드2"] }
-  ];
+const MyPastePage: React.FC = () => {
+  const [projects, setProjects] = React.useState([]); // API로부터 받아온 데이터를 저장할 상태
+
+  // 컴포넌트가 마운트될 때 API 요청을 보냄
+  React.useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const token = localStorage.getItem('access_token');
+        const headers = {
+          'Authorization': `Bearer ${token}`
+        };
+        const response = await axios.get('http://localhost:8085/api/v1/recruitments/applied', { headers });
+        setProjects(response.data); // 받아온 데이터로 상태 업데이트
+      } catch (error) {
+        console.error("API 요청 중 오류가 발생했습니다.", error);
+      }
+    };
+
+    fetchProjects();
+  }, []); // 의존성 배열을 빈 배열로 설정하여 컴포넌트가 마운트될 때만 실행
 
   interface NavProps {
     items: NavItem[];
   }
 
-  const Nav: React.FC<NavProps> = ({ items }) => (
+ const Nav: React.FC<NavProps> = ({ items }) => (
     <nav className="flex flex-col grow items-start pt-16 pr-20 pb-11 pl-7 w-full text-xl text-black bg-amber-100 max-md:px-5 max-md:mt-10">
       <h2 className="ml-5 text-4xl font-extrabold uppercase max-md:ml-2.5">마이페이지</h2>
       {items.map((item, index) => (
@@ -73,11 +89,11 @@ const MyRecruitmentPaste: React.FC = () => {
     <div className="bg-white">
       <div className="flex gap-5 max-md:flex-col max-md:gap-0">
         <aside className="flex flex-col w-[24%] max-md:ml-0 max-md:w-full">
-        <Nav items={navItems} />
+          <Nav items={navItems} />
         </aside>
         <main className="flex flex-col ml-5 w-[76%] max-md:ml-0 max-md:w-full">
           <header className="flex flex-col px-5 mt-24 max-md:mt-10 max-md:max-w-full">
-            <h1 className="text-5xl font-extrabold text-black uppercase max-md:max-w-full max-md:text-4xl"> (ID) 님이 신청한 글 </h1>
+            <h1 className="text-5xl font-extrabold text-black uppercase max-md:max-w-full max-md:text-4xl"> 내가 신청한 글 </h1>
           </header>
           <section className="mt-20 max-md:pr-5 max-md:mt-10 max-md:max-w-full">
             <div className="flex gap-5 max-md:flex-col max-md:gap-0">
@@ -85,8 +101,9 @@ const MyRecruitmentPaste: React.FC = () => {
                 <ProjectCard
                   key={index}
                   title={project.title}
-                  date={project.date}
-                  keywords={project.keywords}
+                  date={project.deadline} // API 응답에 맞게 필드 수정
+                  positions={project.positions}
+                  type={project.type}
                 />
               ))}
             </div>
@@ -97,4 +114,4 @@ const MyRecruitmentPaste: React.FC = () => {
   );
 };
 
-export default MyRecruitmentPaste;
+export default MyPastePage;
