@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate} from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import BackButton from '../assets/images/BackButton.png';
 import Profile from '../assets/images/Profile.svg';
 import Java from '../assets/images/Java.svg';
@@ -76,10 +76,13 @@ function RecruitmentPage_Owner() {
     }
   }, [recruitment]);
 
+  const handleViewSubmission = (submissionId) => {
+    navigate(`/viewSubmission/${submissionId}?recruitmentId=${recruitmentId}`);
+  };
+
   if (!recruitment) {
     return <div>Loading...</div>;
   }
-  
 
   return (
     <div className="flex flex-col items-center pt-7 pb-12 bg-white">
@@ -187,7 +190,10 @@ function RecruitmentPage_Owner() {
         <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-1 text-lg rounded">
           프로필 보기
         </button>
-        <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-1 text-lg rounded">
+        <button 
+          className="bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-1 text-lg rounded"
+          onClick={() => handleViewSubmission(applicant.submissionId)}
+        >
           지원서 보기
         </button>
       </div>

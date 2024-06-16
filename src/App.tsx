@@ -10,6 +10,7 @@ import RecruitmentPage_Owner from './pages/RecruitmentPage_Owner';
 import WritePage from './pages/WritePage';
 import ApplicationPage from './pages/ApplicationPage';
 import SubmissionPage from './pages/SubmissionPage';
+import ViewSubmissionPage from './pages/ViewSubmissionPage';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path="Write" element={<WritePage />} />
           <Route path="Application/:recruitmentId" element={<ApplicationPage />} />
           <Route path="Submission/:recruitmentId" element={<SubmissionPage />} />
+          <Route path="ViewSubmission/:submissionId" element={<ViewSubmissionPage />} />
         </Routes>
       </BrowserRouter>
     </>
