@@ -78,6 +78,36 @@ const ViewSubmissionPage: React.FC = () => {
     fetchSubmissionData();
   }, [recruitmentId, submissionId]);
 
+  const handleAccept = async () => {
+    try {
+      const token = localStorage.getItem('access_token');
+      const headers = {
+        'Authorization': `Bearer ${token}`
+      };
+
+      await axios.patch(`http://localhost:8085/api/v1/applications/${application.applicationId}/submissions/${submissionId}/accepting`, {}, { headers });
+      alert('Submission accepted successfully');
+    } catch (err) {
+      console.error('Accepting submission failed:', err);
+      alert('Accepting submission failed');
+    }
+  };
+
+  const handleReject = async () => {
+    try {
+      const token = localStorage.getItem('access_token');
+      const headers = {
+        'Authorization': `Bearer ${token}`
+      };
+
+      await axios.patch(`http://localhost:8085/api/v1/applications/${application.applicationId}/submissions/${submissionId}/rejecting`, {}, { headers });
+      alert('Submission rejected successfully');
+    } catch (err) {
+      console.error('Rejecting submission failed:', err);
+      alert('Rejecting submission failed');
+    }
+  };
+
   const renderQuestion = (question: any) => {
     switch (question.type) {
       case 'descriptive':
@@ -142,6 +172,20 @@ const ViewSubmissionPage: React.FC = () => {
           {renderQuestion(question)}
         </div>
       ))}
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+        <button
+          className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mr-4"
+          onClick={handleAccept}
+        >
+          수락
+        </button>
+        <button
+          className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
+          onClick={handleReject}
+        >
+          거절
+        </button>
+      </div>
     </div>
   );
 };
