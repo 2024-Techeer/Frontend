@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate} from 'react-router-dom';
 import DOMPurify from 'dompurify';
 import BackButton from '../assets/images/BackButton.png';
 import Profile from '../assets/images/Profile.svg';
@@ -9,6 +9,7 @@ import Python from '../assets/images/Python.svg';
 function RecruitmentPage() {
   const { recruitmentId } = useParams();
   const [recruitment, setRecruitment] = useState(null);
+  const navigate = useNavigate();
 
   const fetchRecruitment = async () => {
     const url = `http://localhost:8085/api/v1/recruitments/${recruitmentId}`;
@@ -41,6 +42,11 @@ function RecruitmentPage() {
     return <div>Loading...</div>;
   }
 
+    // Function to handle the Apply button click
+    const handleApplyClick = () => {
+      navigate(`/Submission/${recruitmentId}`);
+    };
+  
   const sanitizedIntroduction = DOMPurify.sanitize(recruitment.introduction);
 
   return (
@@ -140,7 +146,7 @@ function RecruitmentPage() {
           dangerouslySetInnerHTML={{ __html: sanitizedIntroduction }}
         />
         <div className="flex justify-end">
-          <button className="mt-24 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          <button className="mt-24 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={handleApplyClick}>
             지원하기
           </button>
         </div>
