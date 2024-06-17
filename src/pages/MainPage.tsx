@@ -46,7 +46,7 @@ const techStackImages = {
   React: react,
   Vue,
   SVELTE,
-  'Next.js': Next,
+  Next: Next,
   Flutter,
   Swift,
   Kotlin,
