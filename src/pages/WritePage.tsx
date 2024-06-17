@@ -1,34 +1,8 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import BackButton from '../assets/images/BackButton.png';
-
-import aws from '../assets/images/aws.png';
-import Django from '../assets/images/Django.png';
-import docker from '../assets/images/docker.png';
-import Figma from '../assets/images/Figma.png';
-import Flask from '../assets/images/Flask.png';
-import Flutter from '../assets/images/Flutter.png';
-import Git from '../assets/images/Git.png';
-import Go from '../assets/images/Go.png';
-import JS from '../assets/images/JS.png';
-import Kotlin from '../assets/images/Kotlin.png';
-import kubernetes from '../assets/images/kubernetes.png';
-import MongoDB from '../assets/images/MongoDB.png';
-import MySQL from '../assets/images/MySQL.png';
-import Next from '../assets/images/Next.png';
-import Node from '../assets/images/Node.png';
-import php from '../assets/images/php.png';
-import react from '../assets/images/React.png';
-import ReactNative from '../assets/images/ReactNative.png';
-import Ruby from '../assets/images/Ruby.png';
-import Spring from '../assets/images/Spring.png';
-import SVELTE from '../assets/images/SVELTE.png';
-import Swift from '../assets/images/Swift.png';
-import Ts from '../assets/images/Ts.png';
-import Unity from '../assets/images/Unity.png';
-import Vue from '../assets/images/Vue.png';
 
 function WritePage() {
   const [title, setTitle] = useState('');
@@ -73,7 +47,14 @@ function WritePage() {
       }
 
       const data = await response.json();
-      navigate('/main'); // Navigate to the main page
+      console.log('Server response:', data); // 응답 데이터를 출력합니다.
+
+      const recruitmentId = data.recruitmentId; // 올바른 키를 사용하여 ID를 추출합니다.
+      if (recruitmentId) {
+        navigate(`/Application/${recruitmentId}`); // 모집글 ID를 이용해 신청서 생성 페이지로 이동
+      } else {
+        console.error('Recruitment ID not found in the response');
+      }
     } catch (error) {
       console.error('Fetch operation failed:', error);
     }
@@ -118,7 +99,7 @@ function WritePage() {
             throw new Error('Image upload failed');
           }
 
-          const data = await response.text(); // 서버 응답을 텍스트로 받음
+          const data = await response.text();
           if (range) {
             quill.insertEmbed(range.index, 'image', data);
             quill.setSelection(range.index + 1);
@@ -163,11 +144,9 @@ function WritePage() {
   return (
     <div className="flex flex-col pt-7 pb-14 bg-white">
       <div className="flex gap-5 self-center px-5 w-full text-black whitespace-nowrap max-w-[1376px] max-md:flex-wrap max-md:max-w-full">
-        <div className="flex-auto text-4xl max-md:text-4xl">HOLA</div>
-        <div className="flex gap-5 my-auto text-4xl font-bold">
-          <div className="flex-auto">로그인</div>
-          <div className="flex-auto">회원가입</div>
-        </div>
+        <Link to="/Main" className="flex-auto text-6xl max-md:text-4xl">
+          HOLA
+        </Link>
       </div>
       <div className="mt-6 w-full bg-zinc-300 min-h-[4px] max-md:max-w-full" />
       <div className="flex flex-col px-20 mt-9 w-full max-md:px-5 max-md:max-w-full">

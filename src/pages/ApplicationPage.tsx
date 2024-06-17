@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import MultipleChoiceForm from './components/MultipleChoiceForm';
 import DescriptiveForm from './components/DescriptiveForm';
 import FileUploadForm from './components/FileUploadForm';
@@ -9,7 +9,7 @@ const ApplicationPage = () => {
   const { recruitmentId } = useParams();
   const navigate = useNavigate();
   const [questionType, setQuestionType] = useState('');
-  const [forms, setForms] = useState<{ key: number, form: JSX.Element, type: string, data: any }[]>([]);
+  const [forms, setForms] = useState<{ key: number; form: JSX.Element; type: string; data: any }[]>([]);
 
   const handleAddForm = () => {
     const key = Math.random();
@@ -27,21 +27,24 @@ const ApplicationPage = () => {
       default:
         return;
     }
-    setForms(prevForms => [...prevForms, { key, form: formComponent, type: questionType === 'multipleChoice' ? 'multiple' : questionType, data: null }]);
+    setForms((prevForms) => [
+      ...prevForms,
+      { key, form: formComponent, type: questionType === 'multipleChoice' ? 'multiple' : questionType, data: null },
+    ]);
   };
 
   const handleRemoveForm = (keyToRemove) => {
-    setForms(prevForms => prevForms.filter(form => form.key !== keyToRemove));
+    setForms((prevForms) => prevForms.filter((form) => form.key !== keyToRemove));
   };
 
   const handleFormChange = (key, data) => {
-    setForms(prevForms => prevForms.map(form => form.key === key ? { ...form, data } : form));
+    setForms((prevForms) => prevForms.map((form) => (form.key === key ? { ...form, data } : form)));
   };
 
   const handleSubmit = async () => {
     const token = localStorage.getItem('access_token'); // 로컬 스토리지에서 토큰을 가져옴
     const headers = {
-      'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     };
 
     try {
@@ -49,7 +52,7 @@ const ApplicationPage = () => {
       const applicationResponse = await axios.post(
         `http://localhost:8085/api/v1/recruitments/${recruitmentId}/applications`,
         {},
-        { headers }
+        { headers },
       );
       const applicationId = applicationResponse.data.applicationId;
 
@@ -57,13 +60,11 @@ const ApplicationPage = () => {
       for (const { type, data } of forms) {
         let requestBody = { type, title: data.title };
         if (type === 'multiple') {
-          requestBody = { ...requestBody, options: data.options.map(option => option.value) };
+          requestBody = { ...requestBody, options: data.options.map((option) => option.value) };
         }
-        await axios.post(
-          `http://localhost:8085/api/v1/applications/${applicationId}/questions`,
-          requestBody,
-          { headers }
-        );
+        await axios.post(`http://localhost:8085/api/v1/applications/${applicationId}/questions`, requestBody, {
+          headers,
+        });
       }
 
       alert('신청서 양식 생성 완료!');
@@ -89,30 +90,42 @@ const ApplicationPage = () => {
         {forms.map(({ key, form }) => (
           <div key={key} style={{ position: 'relative', marginTop: '80px' }}>
             {form}
-            <button onClick={() => handleRemoveForm(key)} style={{
-              position: 'absolute',
-              top: 0,
-              right: '120px',
-              padding: '5px 10px',
-              fontSize: '12px',
-              fontWeight: 'bold',
-              cursor: 'pointer'
-            }}>X</button>
+            <button
+              onClick={() => handleRemoveForm(key)}
+              style={{
+                position: 'absolute',
+                top: 0,
+                right: '120px',
+                padding: '5px 10px',
+                fontSize: '12px',
+                fontWeight: 'bold',
+                cursor: 'pointer',
+              }}
+            >
+              X
+            </button>
           </div>
         ))}
       </div>
-      <button onClick={handleSubmit} style={{
-        position: 'fixed',
-        right: '50px',
-        bottom: '20px',
-        padding: '10px 20px',
-        fontSize: '16px',
-        backgroundColor: 'black',
-        color: 'white',
-        border: 'none',
-        borderRadius: '5px',
-        cursor: 'pointer'
-      }}>생성</button>
+      <Link to="/Main">
+        <button
+          onClick={handleSubmit}
+          style={{
+            position: 'fixed',
+            right: '50px',
+            bottom: '20px',
+            padding: '10px 20px',
+            fontSize: '16px',
+            backgroundColor: 'black',
+            color: 'white',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer',
+          }}
+        >
+          생성
+        </button>
+      </Link>
     </div>
   );
 };

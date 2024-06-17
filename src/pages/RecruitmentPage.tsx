@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate} from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 import BackButton from '../assets/images/BackButton.png';
 import Profile from '../assets/images/Profile.svg';
@@ -42,21 +42,19 @@ function RecruitmentPage() {
     return <div>Loading...</div>;
   }
 
-    // Function to handle the Apply button click
-    const handleApplyClick = () => {
-      navigate(`/Submission/${recruitmentId}`);
-    };
-  
+  // Function to handle the Apply button click
+  const handleApplyClick = () => {
+    navigate(`/Submission/${recruitmentId}`);
+  };
+
   const sanitizedIntroduction = DOMPurify.sanitize(recruitment.introduction);
 
   return (
     <div className="flex flex-col items-center pt-7 pb-12 bg-white">
       <div className="flex gap-5 px-5 w-full text-black whitespace-nowrap max-w-[1376px] max-md:flex-wrap max-md:max-w-full">
-        <div className="flex-auto text-6xl max-md:text-4xl">HOLA</div>
-        <div className="flex gap-5 my-auto text-4xl font-bold">
-          <div className="flex-auto">로그인</div>
-          <div className="flex-auto">회원가입</div>
-        </div>
+        <Link to="/Main" className="flex-auto text-6xl max-md:text-4xl">
+          HOLA
+        </Link>
       </div>
       <div className="self-stretch mt-6 w-full bg-zinc-300 min-h-[4px] max-md:max-w-full" />
       <div className="flex flex-col items-start mt-9 w-full text-2xl font-bold text-black max-w-[1312px] max-md:max-w-full">
@@ -146,7 +144,10 @@ function RecruitmentPage() {
           dangerouslySetInnerHTML={{ __html: sanitizedIntroduction }}
         />
         <div className="flex justify-end">
-          <button className="mt-24 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={handleApplyClick}>
+          <button
+            className="mt-24 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            onClick={handleApplyClick}
+          >
             지원하기
           </button>
         </div>

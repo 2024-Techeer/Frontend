@@ -18,7 +18,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="Main" element={<MainPage />} />
-          <Route path="Login" element={<LoginPage />} />
+          <Route path="/" element={<LoginPage />} />
           <Route path="Register" element={<RegisterPage />} />
           <Route path="MyUserEdit/:userId" element={<MyUserEditPage />} />
           <Route path="MyPaste" element={<MyPastePage />} />
