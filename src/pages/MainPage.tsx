@@ -116,12 +116,12 @@ function MainPage() {
         <Link to="/Main" className="flex-auto text-6xl max-md:text-4xl">
           HOLA
         </Link>
-        <div className="flex gap-5 my-auto text-4xl font-bold">
-          <Link to="/Login" className="flex-auto">
-            로그인
+        <div className="flex gap-8 my-auto text-3xl font-bold">
+          <Link to="/write" className="flex-auto">
+            모집글 생성
           </Link>
-          <Link to="/Register" className="flex-auto">
-            회원가입
+          <Link to="/myPaste" className="flex-auto">
+            마이페이지
           </Link>
         </div>
       </div>
@@ -166,16 +166,6 @@ function MainPage() {
               </div>
             )}
           </div>
-          <div className="flex gap-5 px-5 mt-3 py-3 text-2xl bg-amber-400 border border-black border-solid rounded-[50px]">
-            <img loading="lazy" src={expand} className="shrink-0 aspect-square w-[30px]" />
-            <input
-              type="text"
-              value={searchText}
-              onChange={handleSearchChange}
-              className="flex-auto bg-amber-400 border-none outline-none"
-              placeholder="제목, 글 내용을 검색해보세요."
-            />
-          </div>
         </div>
         <div className="px-5 mt-7 max-md:max-w-full">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 max-md:flex-col max-md:gap-0">
@@ -214,7 +204,7 @@ function MainPage() {
                         recruitment.closing ? 'blur-[1px]' : ''
                       }`}
                     >
-                      전체
+                      {recruitment.positions}
                     </div>
                     <div className={`flex gap-3.5 mt-3 max-md:pr-5 ${recruitment.closing ? 'blur-[1px]' : ''}`}>
                       {recruitment.techStacks.map((tech, index) => (
@@ -231,11 +221,7 @@ function MainPage() {
                         recruitment.closing ? 'blur-[1px]' : ''
                       }`}
                     />
-                    <div
-                      className={`self-end mt-2 text-base font-bold text-black ${recruitment.closing ? 'blur-[1px]' : ''}`}
-                    >
-                      User ID: {recruitment.userId}
-                    </div>
+
                     {recruitment.closing && (
                       <div className="absolute inset-0 flex items-center justify-center text-red-600 font-bold text-4xl bg-white bg-opacity-75">
                         마감
