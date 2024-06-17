@@ -117,11 +117,8 @@ function MainPage() {
           HOLA
         </Link>
         <div className="flex gap-5 my-auto text-4xl font-bold">
-          <Link to="/Login" className="flex-auto">
-            로그인
-          </Link>
-          <Link to="/Register" className="flex-auto">
-            회원가입
+          <Link to="/myPaste" className="flex-auto">
+            마이페이지
           </Link>
         </div>
       </div>
