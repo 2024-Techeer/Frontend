@@ -125,12 +125,31 @@ const ViewSubmissionPage: React.FC = () => {
         return (
           <div style={{ margin: '10px', padding: '10px', borderBottom: '2px solid #FFB422' }}>
             <label>{question.title}</label>
-            <input
-              type="text"
-              style={{ width: '100%' }}
-              value={responses[question.questionId] || 'No file uploaded'}
-              readOnly
-            />
+            {responses[question.questionId] ? (
+              <div>
+                <button
+                  onClick={() => window.open(responses[question.questionId], '_blank')}
+                  style={{
+                    marginTop: '10px',
+                    backgroundColor: '#4CAF50',
+                    color: 'white',
+                    padding: '10px 20px',
+                    border: 'none',
+                    borderRadius: '5px',
+                    cursor: 'pointer'
+                  }}
+                >
+                  파일 보기
+                </button>
+              </div>
+            ) : (
+              <input
+                type="text"
+                style={{ width: '100%' }}
+                value="No file uploaded"
+                readOnly
+              />
+            )}
           </div>
         );
       case 'multiple':

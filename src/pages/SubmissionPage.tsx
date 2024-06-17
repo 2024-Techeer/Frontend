@@ -48,8 +48,7 @@ const SubmissionPage = () => {
     try {
       const token = localStorage.getItem('access_token');
       const headers = {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
+        'Authorization': `Bearer ${token}`
       };
 
       // 첫 번째 API: 제출 생성
@@ -57,15 +56,26 @@ const SubmissionPage = () => {
       const submissionId = submissionResponse.data.submissionId;
 
       // 두 번째 API: 각 질문별 답변 제출
-      application.questions.forEach(async (question) => {
-        let payload;
-        if (question.type === 'multiple') {
-          payload = { optionIds: responses[question.questionId] || [] }; // 선택된 옵션 ID 배열
-        } else {
-          payload = { content: responses[question.questionId] }; // 입력된 텍스트 내용
+      for (const question of application.questions) {
+        const formData = new FormData();
+        let url = `http://localhost:8085/api/v1/applications/questions/${question.questionId}/submissions/${submissionId}/answers`;
+
+        if (question.type === 'descriptive') {
+          formData.append('content', responses[question.questionId] || '');
+        } else if (question.type === 'multiple') {
+          const optionIds = responses[question.questionId] || [];
+          optionIds.forEach(id => formData.append('optionIds', id));
+        } else if (question.type === 'file') {
+          formData.append('file', responses[question.questionId]);
         }
-        await axios.post(`http://localhost:8085/api/v1/applications/questions/${question.questionId}/submissions/${submissionId}/answers`, payload, { headers });
-      });
+
+        await axios.post(url, formData, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+      }
 
       alert('Submission successful');
     } catch (error) {
@@ -89,7 +99,6 @@ const SubmissionPage = () => {
           </div>
         );
       case 'file':
-        // 파일 입력 처리
         return (
           <div style={{ margin: '10px', padding: '10px', borderBottom: '2px solid #FFB422' }}>
             <label>{question.title}</label>
