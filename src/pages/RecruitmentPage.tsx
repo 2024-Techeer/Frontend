@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate} from 'react-router-dom';
+import DOMPurify from 'dompurify';
 import BackButton from '../assets/images/BackButton.png';
 import Profile from '../assets/images/Profile.svg';
 import Java from '../assets/images/Java.svg';
@@ -46,6 +47,7 @@ function RecruitmentPage() {
       navigate(`/Submission/${recruitmentId}`);
     };
   
+  const sanitizedIntroduction = DOMPurify.sanitize(recruitment.introduction);
 
   return (
     <div className="flex flex-col items-center pt-7 pb-12 bg-white">
@@ -139,7 +141,10 @@ function RecruitmentPage() {
 
         <div className="border-t border-4 border-[#D9D9D9] flex-grow mt-10"></div>
         <div className="text-5xl font-bold text-zinc-800 mt-10 ml-20">프로젝트 소개</div>
-        <div className="text-2xl text-zinc-800 mt-10 ml-20">{recruitment.description}</div>
+        <div
+          className="text-2xl text-zinc-800 mt-10 ml-20"
+          dangerouslySetInnerHTML={{ __html: sanitizedIntroduction }}
+        />
         <div className="flex justify-end">
           <button className="mt-24 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={handleApplyClick}>
             지원하기
