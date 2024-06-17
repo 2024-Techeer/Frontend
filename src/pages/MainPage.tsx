@@ -116,7 +116,10 @@ function MainPage() {
         <Link to="/Main" className="flex-auto text-6xl max-md:text-4xl">
           HOLA
         </Link>
-        <div className="flex gap-5 my-auto text-4xl font-bold">
+        <div className="flex gap-8 my-auto text-3xl font-bold">
+          <Link to="/write" className="flex-auto">
+            모집글 생성
+          </Link>
           <Link to="/myPaste" className="flex-auto">
             마이페이지
           </Link>
