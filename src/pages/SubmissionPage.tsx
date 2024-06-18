@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom'; // useNavigate 추가
 import axios from 'axios';
 
 const SubmissionPage = () => {
   const { recruitmentId } = useParams();
+  const navigate = useNavigate(); // useNavigate 훅 사용
   const [application, setApplication] = useState(null);
   const [responses, setResponses] = useState({});
 
@@ -78,6 +79,7 @@ const SubmissionPage = () => {
       }
 
       alert('Submission successful');
+      navigate('/Main'); // Main 페이지로 이동
     } catch (error) {
       console.error('Submission failed:', error);
       alert('Submission failed');

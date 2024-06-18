@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 interface Choice {
@@ -30,6 +30,7 @@ const ViewSubmissionPage: React.FC = () => {
   const [responses, setResponses] = useState<{ [key: string]: any }>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!recruitmentId) {
@@ -87,6 +88,7 @@ const ViewSubmissionPage: React.FC = () => {
 
       await axios.patch(`http://localhost:8085/api/v1/applications/${application.applicationId}/submissions/${submissionId}/accepting`, {}, { headers });
       alert('Submission accepted successfully');
+      navigate(`/Recruitment_Owner/${recruitmentId}`);
     } catch (err) {
       console.error('Accepting submission failed:', err);
       alert('Accepting submission failed');
@@ -102,6 +104,7 @@ const ViewSubmissionPage: React.FC = () => {
 
       await axios.patch(`http://localhost:8085/api/v1/applications/${application.applicationId}/submissions/${submissionId}/rejecting`, {}, { headers });
       alert('Submission rejected successfully');
+      navigate(`/Recruitment_Owner/${recruitmentId}`);
     } catch (err) {
       console.error('Rejecting submission failed:', err);
       alert('Rejecting submission failed');

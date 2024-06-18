@@ -11,6 +11,7 @@ import WritePage from './pages/WritePage';
 import ApplicationPage from './pages/ApplicationPage';
 import SubmissionPage from './pages/SubmissionPage';
 import ViewSubmissionPage from './pages/ViewSubmissionPage';
+import ProfilePage from './pages/ProfilePage';
 
 function App() {
   return (
@@ -29,6 +30,8 @@ function App() {
           <Route path="Application/:recruitmentId" element={<ApplicationPage />} />
           <Route path="Submission/:recruitmentId" element={<SubmissionPage />} />
           <Route path="ViewSubmission/:submissionId" element={<ViewSubmissionPage />} />
+          <Route path="MyUserEdit" element={<MyUserEditPage />} />
+          <Route path="Profile/:userId" element={<ProfilePage />} />
         </Routes>
       </BrowserRouter>
     </>
