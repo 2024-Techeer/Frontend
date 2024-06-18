@@ -151,12 +151,22 @@ function WritePage() {
       <div className="mt-6 w-full bg-zinc-300 min-h-[4px] max-md:max-w-full" />
       <div className="flex flex-col px-20 mt-9 w-full max-md:px-5 max-md:max-w-full">
         <img loading="lazy" src={BackButton} className="aspect-square w-[50px] max-md:ml-0.5" alt="Back" />
-        <div className="self-start mt-7 ml-20 text-4xl font-bold text-black max-md:max-w-full">
+        <div className="self-start mt-7 ml-72 text-4xl font-bold text-black max-md:max-w-full">
           프로젝트 기본 정보를 입력해주세요.
         </div>
         <form onSubmit={handleSubmit} className="flex flex-col mt-7 space-y-6">
           <div className="self-center w-full max-w-[1162px]">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div className="flex flex-col">
+                <div className="text-2xl font-bold text-neutral-500">제목</div>
+                <input
+                  type="text"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  className="mt-3 p-3 bg-white border border-black border-solid"
+                  placeholder="제목을 입력해주세요"
+                />
+              </div>
               <div className="flex flex-col">
                 <div className="text-2xl font-bold text-neutral-500">모집 구분</div>
                 <select
@@ -180,7 +190,7 @@ function WritePage() {
               </div>
 
               <div className="flex flex-col">
-                <div className="text-2xl font-bold text-neutral-500">진행 기간</div>
+                <div className="text-2xl font-bold text-neutral-500">시작 ~ 종료</div>
                 <input
                   type="date"
                   value={startDate}
@@ -239,7 +249,7 @@ function WritePage() {
                 >
                   <option value="1">프론트엔드</option>
                   <option value="2">백엔드</option>
-                  <option value="3">풀스택</option>
+                  <option value="3">모바일</option>
                 </select>
               </div>
               <div className="flex flex-col">

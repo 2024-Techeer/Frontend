@@ -3,8 +3,59 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 import BackButton from '../assets/images/BackButton.png';
 import Profile from '../assets/images/Profile.svg';
-import Java from '../assets/images/Java.svg';
-import Python from '../assets/images/Python.svg';
+import aws from '../assets/images/aws.png';
+import Django from '../assets/images/Django.png';
+import docker from '../assets/images/docker.png';
+import Figma from '../assets/images/Figma.png';
+import Flask from '../assets/images/Flask.png';
+import Flutter from '../assets/images/Flutter.png';
+import Git from '../assets/images/Git.png';
+import Go from '../assets/images/Go.png';
+import JS from '../assets/images/JS.png';
+import Kotlin from '../assets/images/Kotlin.png';
+import kubernetes from '../assets/images/kubernetes.png';
+import MongoDB from '../assets/images/MongoDB.png';
+import MySQL from '../assets/images/MySQL.png';
+import Next from '../assets/images/Next.png';
+import Node from '../assets/images/Node.png';
+import php from '../assets/images/php.png';
+import react from '../assets/images/React.png';
+import ReactNative from '../assets/images/ReactNative.png';
+import Ruby from '../assets/images/Ruby.png';
+import Spring from '../assets/images/Spring.png';
+import SVELTE from '../assets/images/SVELTE.png';
+import Swift from '../assets/images/Swift.png';
+import Ts from '../assets/images/Ts.png';
+import Unity from '../assets/images/Unity.png';
+import Vue from '../assets/images/Vue.png';
+
+const techStackImages = {
+  Spring,
+  Node: Node,
+  Django,
+  Flask,
+  Ruby,
+  php,
+  Go,
+  MySQL,
+  MongoDB,
+  JavaScript: JS,
+  TypeScript: Ts,
+  React: react,
+  Vue,
+  SVELTE,
+  Next: Next,
+  Flutter,
+  Swift,
+  Kotlin,
+  ReactNative: ReactNative,
+  Unity,
+  AWS: aws,
+  Docker: docker,
+  Kubernetes: kubernetes,
+  Figma,
+  Git,
+};
 
 function RecruitmentPage() {
   const { recruitmentId } = useParams();
@@ -42,7 +93,6 @@ function RecruitmentPage() {
     return <div>Loading...</div>;
   }
 
-  // Function to handle the Apply button click
   const handleApplyClick = () => {
     navigate(`/Submission/${recruitmentId}`);
   };
@@ -58,11 +108,11 @@ function RecruitmentPage() {
       </div>
       <div className="self-stretch mt-6 w-full bg-zinc-300 min-h-[4px] max-md:max-w-full" />
       <div className="flex flex-col items-start mt-9 w-full text-2xl font-bold text-black max-w-[1312px] max-md:max-w-full">
-        <img loading="lazy" src={BackButton} className="aspect-square w-[50px]" />
+        <img loading="lazy" src={BackButton} className="aspect-square w-[50px]" alt="Back" />
         <div className="mt-7 ml-20 text-3xl max-md:max-w-full">{recruitment.title}</div>
         <div className="flex gap-5 items-center mt-12 ml-20 whitespace-nowrap max-md:mt-10 max-md:ml-2.5">
-          <img loading="lazy" src={Profile} className="shrink-0 self-stretch aspect-square w-[50px]" />
-          <div className="self-stretch my-auto font-bold">정세훈</div>
+          <img loading="lazy" src={Profile} className="shrink-0 self-stretch aspect-square w-[50px]" alt="Profile" />
+          <div className="self-stretch my-auto font-bold">{recruitment.name}</div>
           <div className="self-stretch my-auto">|</div>
           <div className="flex-auto self-stretch my-auto text-neutral-500">
             {new Date(recruitment.startDate).toLocaleDateString()}
@@ -75,7 +125,7 @@ function RecruitmentPage() {
           <div className="flex gap-5 max-md:flex-col max-md:gap-0">
             <div className="flex flex-col w-[32%] max-md:ml-0 max-md:w-full">
               <div className="flex grow gap-5 mt-2.5 text-2xl font-bold max-md:mt-10">
-                <div className="flex flex-col flex-1 text-neutral-500">
+                <div className="flex flex-col flex-1 text-neutral-500 ml-20">
                   <div>모집 구분</div>
                   <div className="mt-12 max-md:mt-10">모집 인원</div>
                   <div className="mt-14 max-md:mt-10">모집 분야</div>
@@ -86,66 +136,49 @@ function RecruitmentPage() {
                   <div className="mt-14 max-md:mt-10">{recruitment.positions.join(', ')}</div>
                 </div>
               </div>
+              <div className="flex flex-col mt-12 text-2xl font-bold text-neutral-500 max-md:mt-10 ml-20">
+                <div className="flex items-center">
+                  <div>사용 언어</div>
+                  <div className="flex ml-5">
+                    {recruitment.techStacks.map((stack) => (
+                      <img
+                        key={stack}
+                        loading="lazy"
+                        src={techStackImages[stack]}
+                        className="shrink-0 w-12 h-12 aspect-square ml-5"
+                        alt={stack}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="flex flex-col ml-5 w-[68%] max-md:ml-0 max-md:w-full">
-              <div className="grow max-md:mt-10 max-md:max-w-full">
-                <div className="flex gap-5 max-md:flex-col max-md:gap-0">
-                  <div className="flex flex-col w-[19%] max-md:ml-0 max-md:w-full">
-                    <div className="flex flex-col grow mt-2.5 text-2xl font-bold text-neutral-500 max-md:mt-10">
-                      <div>진행 방식</div>
-                      <div className="mt-12 max-md:mt-10">시작 예정</div>
-                      <div className="mt-14 max-md:mt-10">예상 기간</div>
-                    </div>
-                  </div>
-                  <div className="flex flex-col ml-5 w-[81%] max-md:ml-0 max-md:w-full">
-                    <div className="flex flex-col grow max-md:mt-10 max-md:max-w-full">
-                      <div className="max-md:max-w-full">
-                        <div className="flex gap-5 max-md:flex-col max-md:gap-0">
-                          <div className="flex flex-col w-[43%] max-md:ml-0 max-md:w-full">
-                            <div className="flex flex-col grow mt-2.5 text-2xl font-bold text-black whitespace-nowrap max-md:mt-10">
-                              <div>{recruitment.process}</div>
-                              <div className="mt-12 max-md:mt-10">
-                                {new Date(recruitment.startDate).toLocaleDateString()}
-                              </div>
-                            </div>
-                          </div>
-                          <div className="flex flex-col ml-5 w-[30%] max-md:ml-0 max-md:w-full">
-                            <div className="mt-2.5 text-2xl font-bold text-neutral-500 max-md:mt-10">사용 언어</div>
-                          </div>
-                          <div className="flex flex-col ml-5 w-[27%] max-md:ml-0 max-md:w-full">
-                            <div className="flex gap-5 justify-between items-start max-md:mt-10">
-                              {recruitment.techStacks.map((stack) => (
-                                <img
-                                  key={stack}
-                                  loading="lazy"
-                                  src={stack === 'Java' ? Java : Python}
-                                  className="shrink-0 w-10 aspect-square"
-                                />
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="mt-14 text-2xl font-bold text-black max-md:mt-10 max-md:max-w-full">
-                        {recruitment.duration}
-                      </div>
-                    </div>
-                  </div>
+
+            <div className="flex flex-col w-[68%] max-md:ml-0 max-md:w-full">
+              <div className="flex grow gap-5 mt-2.5 text-2xl font-bold max-md:mt-10">
+                <div className="flex flex-col flex-1 text-neutral-500 ml-72">
+                  <div>시작 예정</div>
+                  <div className="mt-12 max-md:mt-10">종료 예정</div>
+                  <div className="mt-14 max-md:mt-10">마감일</div>
+                </div>
+                <div className="flex flex-col flex-1 text-black whitespace-nowrap">
+                  <div>{new Date(recruitment.startDate).toLocaleDateString()}</div>
+                  <div className="mt-12 max-md:mt-10">{new Date(recruitment.endDate).toLocaleDateString()}</div>
+                  <div className="mt-14 max-md:mt-10">{new Date(recruitment.deadline).toLocaleDateString()}</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
         <div className="border-t border-4 border-[#D9D9D9] flex-grow mt-10"></div>
-        <div className="text-5xl font-bold text-zinc-800 mt-10 ml-20">프로젝트 소개</div>
+        <div className="text-5xl font-bold text-zinc-800 mt-10 ml-40">프로젝트 소개</div>
         <div
-          className="text-2xl text-zinc-800 mt-10 ml-20"
+          className="text-2xl text-zinc-800 mt-10 ml-40"
           dangerouslySetInnerHTML={{ __html: sanitizedIntroduction }}
         />
         <div className="flex justify-end">
           <button
-            className="mt-24 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="mt-24 bg-[#4A90E2] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             onClick={handleApplyClick}
           >
             지원하기

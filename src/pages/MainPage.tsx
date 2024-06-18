@@ -48,7 +48,7 @@ const techStackImages = {
   Flutter,
   Swift,
   Kotlin,
-  'React Native': ReactNative,
+  ReactNative: ReactNative,
   Unity,
   AWS: aws,
   Docker: docker,
