@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 interface ProfileData {
+  name: string;
   photo: string;
   gender: string;
   intro: string;
@@ -37,30 +38,38 @@ const ProfilePage: React.FC = () => {
   }
 
   return (
-    <section className="flex flex-col self-stretch px-4 my-auto text-3xl font-extrabold text-black max-md:mt-8 max-md:max-w-full">
-      <Link to="/Main" className="text-6xl mt-10 mb-10 max-md:mt-6 max-md:text-3xl">HOLA</Link>
-      <h1 className="text-4xl max-md:max-w-full max-md:text-3xl">프로필</h1>
-      <div className="mt-6">
-        <div className="mt-6">
-          <img src={profileData.photo} alt="Profile" className="rounded-full w-24 h-24" />
-        </div>
-        <h2 className="mt-16 max-md:mt-8 max-md:max-w-full">분야</h2>
-        <p className="mt-4 text-xl font-light max-md:max-w-full">{profileData.positions.join(', ')}</p>
-        <h2 className="mt-12 max-md:mt-8 max-md:max-w-full">자기소개</h2>
-        <div className="shrink-0 mt-4 bg-white rounded-2xl border-2 border-solid border-neutral-400 h-[250px] p-4 max-md:max-w-full text-xl">
-          {profileData.intro}
-        </div>
-        <h2 className="mt-10 max-md:mt-8 max-md:max-w-full">관심 스택</h2>
-        <p className="mt-4 text-xl font-light max-md:max-w-full">{profileData.techStacks.join(', ')}</p>
-        <h2 className="mt-12 max-md:mt-8 max-md:max-w-full">거주지</h2>
-        <p className="mt-4 text-xl font-light max-md:max-w-full">{profileData.residence}</p>
-        <h2 className="mt-12 max-md:mt-8 max-md:max-w-full">신분</h2>
-        <p className="mt-4 text-xl font-light max-md:max-w-full">{profileData.status}</p>
-        <h2 className="mt-12 max-md:mt-8 max-md:max-w-full">성별</h2>
-        <p className="mt-4 text-xl font-light max-md:max-w-full">{profileData.gender}</p>
+    <section className="flex flex-col items-center self-stretch px-4 my-auto text-black max-md:mt-8 max-md:max-w-full">
+      <Link to="/Main" className="text-5xl mt-8 mb-8 text-[#4A90E2] max-md:mt-6 max-md:text-3xl">HOLA</Link>
+      <div className="mt-6 flex flex-col items-center">
+        <img src={profileData.photo} alt="Profile" className="rounded-full w-24 h-24" />
+        <h2 className="text-3xl text-[#4A90E2] mt-4">{profileData.name}</h2>
+      </div>
+      <div className="flex justify-around w-full max-w-2xl mt-10">
+        <ProfileSection title="자기소개" content={profileData.intro} />
+      </div>
+      <div className="flex justify-around w-full max-w-2xl mt-10">
+        <ProfileSection title="분야" content={profileData.positions.join(', ')} />
+        <ProfileSection title="관심 스택" content={profileData.techStacks.join(', ')} />
+      </div>
+      <div className="flex justify-around w-full max-w-2xl mt-10">
+        <ProfileSection title="신분" content={profileData.status} />
+        <ProfileSection title="성별" content={profileData.gender} />
+        <ProfileSection title="거주지" content={profileData.residence} />
       </div>
     </section>
   );
 };
+
+interface ProfileSectionProps {
+  title: string;
+  content: string;
+}
+
+const ProfileSection: React.FC<ProfileSectionProps> = ({ title, content }) => (
+  <div className="flex flex-col items-center text-center mb-8 mx-4">
+    <h2 className="text-2xl text-[#1E3A8A] max-md:text-xl">{title}</h2>
+    <p className="mt-2 text-lg font-light max-md:text-base break-words" style={{ wordBreak: 'break-word' }}>{content}</p>
+  </div>
+);
 
 export default ProfilePage;

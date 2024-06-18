@@ -12,11 +12,11 @@ interface InputFieldProps {
 
 const InputField: React.FC<InputFieldProps> = ({ label, placeholder, type = 'text', value, onChange }) => {
   return (
-    <div className="flex flex-col mt-10">
-      <label className="text-4xl font-semibold">{label}</label>
+    <div className="flex flex-col mt-6">
+      <label className="text-lg font-semibold text-gray-800">{label}</label>
       <input
         type={type}
-        className="mt-2 px-4 py-2 text-3xl font-thin rounded-2xl bg-zinc-300 text-stone-500"
+        className="mt-2 px-4 py-2 text-base font-light rounded-lg bg-gray-100 text-gray-700 focus:outline-none focus:ring-2 focus:ring-#4A90E2"
         placeholder={placeholder}
         value={value}
         onChange={onChange}
@@ -28,6 +28,7 @@ const InputField: React.FC<InputFieldProps> = ({ label, placeholder, type = 'tex
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -44,20 +45,19 @@ const LoginPage: React.FC = () => {
     if (response.ok) {
       const data = await response.json();
       console.log('Login successful:', data);
-      // 로그인 성공 시 access_token을 로컬 스토리지에 저장
       localStorage.setItem('access_token', data.access_token);
       navigate('/Main');
     } else {
       console.error('Login failed');
-      // 실패 처리 로직
+      setError('아이디 또는 비밀번호를 잘못 입력했거나 존재하지 않는 계정입니다.');
     }
   };
 
   return (
-    <main className="flex flex-col justify-center items-center px-16 py-20 font-extrabold text-black bg-white max-md:px-5 h-screen">
-      <div className="flex flex-col mt-32 w-full max-w-[1111px] max-md:mt-10 max-md:max-w-full">
-        <h1 className="text-6xl text-center max-md:text-4xl">로그인</h1>
-        <form onSubmit={handleSubmit} className="w-full">
+    <main className="flex flex-col justify-center items-center px-8 py-12 font-bold text-gray-900 bg-gray-50 h-screen">
+      <div className="flex flex-col mt-20 w-full max-w-md">
+        <h1 className="text-3xl text-center text-gray-800">로그인</h1>
+        <form onSubmit={handleSubmit} className="w-full mt-6">
           <InputField
             label="아이디"
             placeholder="아이디를 입력해주세요."
@@ -72,19 +72,24 @@ const LoginPage: React.FC = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <div className="flex justify-center w-full ">
+          {error && (
+            <div className="mt-2 text-center text-red-400">
+              {error}
+            </div>
+          )}
+          <div className="flex justify-center w-full mt-6">
             <button
               type="submit"
-              className="px-20 py-5 mt-8 text-4xl text-center text-yellow-600 bg-orange-200 rounded-2xl max-md:px-5 max-md:mt-10"
+              className="px-8 py-3 text-lg text-center text-white bg-[#4A90E2] rounded-lg hover:bg-[#3A7DC1] focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               로그인
             </button>
-          </div>{' '}
-          <div className="flex justify-center w-full ">
+          </div>
+          <div className="flex justify-center w-full mt-4">
             <Link to="/register">
               <button
-                type="submit"
-                className="px-16 py-5 mt-8 text-4xl text-center text-yellow-600 bg-orange-200 rounded-2xl max-md:px-5 max-md:mt-10"
+                type="button"
+                className="px-8 py-3 text-lg text-center text-[#4A90E2]"
               >
                 회원가입
               </button>
