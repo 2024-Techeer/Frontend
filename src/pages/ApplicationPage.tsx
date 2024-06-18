@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import MultipleChoiceForm from './components/MultipleChoiceForm';
 import DescriptiveForm from './components/DescriptiveForm';
@@ -8,14 +8,24 @@ import axios from 'axios';
 const ApplicationPage = () => {
   const { recruitmentId } = useParams();
   const navigate = useNavigate();
-  const [questionType, setQuestionType] = useState('');
   const [forms, setForms] = useState<{ key: number; form: JSX.Element; type: string; data: any }[]>([]);
+
+  useEffect(() => {
+    handleAddForm(); // 기본 질문을 추가
+  }, []);
 
   const handleAddForm = () => {
     const key = Math.random();
+    setForms((prevForms) => [
+      ...prevForms,
+      { key, form: <QuestionForm key={key} onTypeSelect={(type) => handleFormTypeSelect(key, type)} />, type: '', data: null },
+    ]);
+  };
+
+  const handleFormTypeSelect = (key, type) => {
     let formComponent;
-    switch (questionType) {
-      case 'multipleChoice':
+    switch (type) {
+      case 'multiple':
         formComponent = <MultipleChoiceForm key={key} onChange={(data) => handleFormChange(key, data)} />;
         break;
       case 'descriptive':
@@ -27,10 +37,9 @@ const ApplicationPage = () => {
       default:
         return;
     }
-    setForms((prevForms) => [
-      ...prevForms,
-      { key, form: formComponent, type: questionType === 'multipleChoice' ? 'multiple' : questionType, data: null },
-    ]);
+    setForms((prevForms) =>
+      prevForms.map((form) => (form.key === key ? { ...form, form: formComponent, type } : form))
+    );
   };
 
   const handleRemoveForm = (keyToRemove) => {
@@ -76,30 +85,28 @@ const ApplicationPage = () => {
   };
 
   return (
-    <div>
-      <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px', marginRight: '50px' }}>
-        <select value={questionType} onChange={(e) => setQuestionType(e.target.value)} style={{ marginRight: '10px' }}>
-          <option value="">폼 선택...</option>
-          <option value="multipleChoice">객관식</option>
-          <option value="descriptive">서술형</option>
-          <option value="file">파일</option>
-        </select>
-        <button onClick={handleAddForm}>Add</button>
+    <div style={{ padding: '20px' }}>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '20px' }}>
+        <button onClick={handleAddForm} style={{ padding: '10px 20px', backgroundColor: '#4A90E2', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>질문 생성</button>
       </div>
       <div>
         {forms.map(({ key, form }) => (
-          <div key={key} style={{ position: 'relative', marginTop: '80px' }}>
+          <div key={key} style={{ position: 'relative', marginBottom: '40px', border: '1px solid #4A90E2', padding: '20px', borderRadius: '10px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>
             {form}
             <button
               onClick={() => handleRemoveForm(key)}
               style={{
                 position: 'absolute',
-                top: 0,
-                right: '120px',
+                top: '10px',
+                right: '10px',
                 padding: '5px 10px',
                 fontSize: '12px',
                 fontWeight: 'bold',
                 cursor: 'pointer',
+                backgroundColor: '#4A90E2',
+                color: 'white',
+                border: 'none',
+                borderRadius: '50%',
               }}
             >
               X
@@ -107,16 +114,13 @@ const ApplicationPage = () => {
           </div>
         ))}
       </div>
-      <Link to="/Main">
+      <div style={{ textAlign: 'center', marginTop: '20px' }}>
         <button
           onClick={handleSubmit}
           style={{
-            position: 'fixed',
-            right: '50px',
-            bottom: '20px',
             padding: '10px 20px',
             fontSize: '16px',
-            backgroundColor: 'black',
+            backgroundColor: '#4A90E2',
             color: 'white',
             border: 'none',
             borderRadius: '5px',
@@ -125,7 +129,40 @@ const ApplicationPage = () => {
         >
           생성
         </button>
-      </Link>
+      </div>
+      <div style={{ textAlign: 'center', marginTop: '20px' }}>
+        <Link to="/Main" style={{ textDecoration: 'none', color: '#4A90E2' }}>돌아가기</Link>
+      </div>
+    </div>
+  );
+};
+
+const QuestionForm = ({ onTypeSelect }) => {
+  const [questionType, setQuestionType] = useState('');
+
+  const handleTypeChange = (event) => {
+    const selectedType = event.target.value;
+    setQuestionType(selectedType);
+    onTypeSelect(selectedType);
+  };
+
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+      <div style={{
+        width: '80%',
+        padding: '20px',
+        borderRadius: '10px',
+        border: '1px solid #4A90E2',
+        backgroundColor: '#E7F0FF',
+        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+      }}>
+        <select value={questionType} onChange={handleTypeChange} style={{ padding: '10px', borderRadius: '5px', border: '1px solid #4A90E2', width: '100%' }}>
+          <option value="">질문 유형 선택...</option>
+          <option value="multiple">객관식</option>
+          <option value="descriptive">서술형</option>
+          <option value="file">파일 업로드</option>
+        </select>
+      </div>
     </div>
   );
 };

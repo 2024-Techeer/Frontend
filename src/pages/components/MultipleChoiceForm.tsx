@@ -33,12 +33,12 @@ const MultipleChoiceForm = ({ onChange }) => {
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <div style={{ width: '80%', borderBottom: '2px solid #FFB422', paddingBottom: '5px' }}>
+        <div style={{ width: '80%', borderBottom: '2px solid #007bff', paddingBottom: '5px' }}>
           <input
             type="text"
             value={title}
             onChange={handleTitleChange}
-            placeholder="Enter question title"
+            placeholder="질문을 입력해주세요"
             style={{ fontWeight: 'bold', fontSize: '1.2em', width: '100%' }}
           />
         </div>
@@ -50,7 +50,7 @@ const MultipleChoiceForm = ({ onChange }) => {
               type="text"
               value={option.value}
               onChange={(e) => handleOptionChange(index, e.target.value)}
-              placeholder="Option"
+              placeholder="선택지를 입력해주세요"
               style={{ width: 'calc(100% - 40px)' }}
             />
             <button onClick={() => removeOption(option.id)} style={{ width: '30px', marginLeft: '10px' }}>
@@ -61,7 +61,7 @@ const MultipleChoiceForm = ({ onChange }) => {
       ))}
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <div style={{ width: '80%' }}>
-          <button onClick={addOption}>Add Option</button>
+          <button onClick={addOption}>선택지 추가</button>
         </div>
       </div>
     </div>

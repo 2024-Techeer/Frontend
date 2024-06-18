@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom'; // useNavigate 추가
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const SubmissionPage = () => {
   const { recruitmentId } = useParams();
-  const navigate = useNavigate(); // useNavigate 훅 사용
+  const navigate = useNavigate();
   const [application, setApplication] = useState(null);
   const [responses, setResponses] = useState({});
 
@@ -78,7 +78,7 @@ const SubmissionPage = () => {
         });
       }
 
-      alert('Submission successful');
+      alert('신청서 제출 완료!');
       navigate('/Main'); // Main 페이지로 이동
     } catch (error) {
       console.error('Submission failed:', error);
@@ -90,11 +90,13 @@ const SubmissionPage = () => {
     switch (question.type) {
       case 'descriptive':
         return (
-          <div style={{ margin: '10px', padding: '10px', borderBottom: '2px solid #FFB422' }}>
-            <label>{question.title}</label>
+          <div style={{ margin: '10px', padding: '10px' }}>
+            <div style={{ borderBottom: '2px solid #4A90E2' }}>
+              <label style={{ fontSize: '1.5em', fontWeight: 'bold' }}>{question.title}</label>
+            </div>
             <input
               type="text"
-              style={{ width: '100%' }}
+              style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', marginTop: '10px' }}
               value={responses[question.questionId] || ''}
               onChange={(e) => handleInputChange(question.questionId, e.target.value)}
             />
@@ -102,27 +104,32 @@ const SubmissionPage = () => {
         );
       case 'file':
         return (
-          <div style={{ margin: '10px', padding: '10px', borderBottom: '2px solid #FFB422' }}>
-            <label>{question.title}</label>
+          <div style={{ margin: '10px', padding: '10px' }}>
+            <div style={{ borderBottom: '2px solid #4A90E2' }}>
+              <label style={{ fontSize: '1.5em', fontWeight: 'bold' }}>{question.title}</label>
+            </div>
             <input
               type="file"
-              style={{ width: '100%' }}
+              style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', marginTop: '10px' }}
               onChange={(e) => handleInputChange(question.questionId, e.target.files[0])}
             />
           </div>
         );
       case 'multiple':
         return (
-          <div style={{ margin: '10px', padding: '10px', borderBottom: '2px solid #FFB422' }}>
-            <label>{question.title}</label>
+          <div style={{ margin: '10px', padding: '10px' }}>
+            <div style={{ borderBottom: '2px solid #4A90E2' }}>
+              <label style={{ fontSize: '1.5em', fontWeight: 'bold' }}>{question.title}</label>
+            </div>
             {question.options.map(option => (
-              <div key={option.optionId}>
+              <div key={option.optionId} style={{ margin: '5px 0' }}>
                 <input
                   type="checkbox"
                   name={question.questionId}
                   value={option.optionId}
                   checked={(responses[question.questionId] || []).includes(option.optionId)}
                   onChange={() => handleCheckboxChange(question.questionId, option.optionId)}
+                  style={{ marginRight: '10px' }}
                 />
                 {option.content}
               </div>
@@ -137,29 +144,28 @@ const SubmissionPage = () => {
   if (!application) return <div>Loading...</div>;
 
   return (
-    <div>
-      <h1>Application Form</h1>
+    <div style={{ padding: '20px' }}>
       {application && application.questions.map(question => (
-        <div key={question.questionId}>
+        <div key={question.questionId} style={{ marginBottom: '20px', border: '1px solid #4A90E2', padding: '20px', borderRadius: '10px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>
           {renderQuestion(question)}
         </div>
       ))}
-      <button
-        style={{
-          position: 'fixed',
-          right: '20px',
-          bottom: '20px',
-          padding: '10px 20px',
-          backgroundColor: '#4CAF50',
-          color: 'white',
-          border: 'none',
-          borderRadius: '5px',
-          cursor: 'pointer'
-        }}
-        onClick={handleCreateClick}
-      >
-        생성하기
-      </button>
+      <div style={{ textAlign: 'center', marginTop: '20px' }}>
+        <button
+          onClick={handleCreateClick}
+          style={{
+            padding: '10px 20px',
+            fontSize: '16px',
+            backgroundColor: '#4A90E2',
+            color: 'white',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer',
+          }}
+        >
+          제출하기
+        </button>
+      </div>
     </div>
   );
 };

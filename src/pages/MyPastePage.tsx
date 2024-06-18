@@ -1,6 +1,60 @@
 import * as React from "react";
-import { useNavigate } from "react-router-dom"; // useNavigate 훅 사용
-import axios from "axios"; // axios 라이브러리를 사용하기 위한 import
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+import aws from '../assets/images/aws.png';
+import Django from '../assets/images/Django.png';
+import docker from '../assets/images/docker.png';
+import Figma from '../assets/images/Figma.png';
+import Flask from '../assets/images/Flask.png';
+import Flutter from '../assets/images/Flutter.png';
+import Git from '../assets/images/Git.png';
+import Go from '../assets/images/Go.png';
+import JS from '../assets/images/JS.png';
+import Kotlin from '../assets/images/Kotlin.png';
+import kubernetes from '../assets/images/kubernetes.png';
+import MongoDB from '../assets/images/MongoDB.png';
+import MySQL from '../assets/images/MySQL.png';
+import Next from '../assets/images/Next.png';
+import Node from '../assets/images/Node.png';
+import php from '../assets/images/php.png';
+import react from '../assets/images/React.png';
+import ReactNative from '../assets/images/ReactNative.png';
+import Ruby from '../assets/images/Ruby.png';
+import Spring from '../assets/images/Spring.png';
+import SVELTE from '../assets/images/SVELTE.png';
+import Swift from '../assets/images/Swift.png';
+import Ts from '../assets/images/Ts.png';
+import Unity from '../assets/images/Unity.png';
+import Vue from '../assets/images/Vue.png';
+
+const techStackImages: { [key: string]: string } = {
+  Spring,
+  Node: Node,
+  Django,
+  Flask,
+  Ruby,
+  php,
+  Go,
+  MySQL,
+  MongoDB,
+  JavaScript: JS,
+  TypeScript: Ts,
+  React: react,
+  Vue,
+  SVELTE,
+  Next: Next,
+  Flutter,
+  Swift,
+  Kotlin,
+  'React Native': ReactNative,
+  Unity,
+  AWS: aws,
+  Docker: docker,
+  Kubernetes: kubernetes,
+  Figma,
+  Git,
+};
 
 interface NavItem {
   href: string;
@@ -19,9 +73,11 @@ interface ProjectCardProps {
   date: string;
   positions: string[];
   type: string;
+  closing: boolean;
+  techStacks: string[];
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ id, title, date, positions = [], type }) => {
+const ProjectCard: React.FC<ProjectCardProps> = ({ id, title, date, positions = [], type, closing, techStacks = [] }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -29,29 +85,35 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ id, title, date, positions = 
   };
 
   return (
-    <article onClick={handleClick} className="cursor-pointer flex flex-col grow items-start pt-5 pr-16 pb-10 pl-6 mx-auto bg-white border-solid border-[3px] border-zinc-500 rounded-[42px] max-md:px-5 max-md:mt-7">
-      <header className="justify-center px-3 py-2 text-sm font-medium text-center text-black uppercase whitespace-nowrap bg-orange-200 rounded-[74.5px]">
+    <article onClick={handleClick} className="relative cursor-pointer flex flex-col grow items-start pt-5 pr-16 pb-10 pl-6 mx-auto bg-white border-solid border-[1px] border-[#4A90E2] rounded-lg max-md:px-5 max-md:mt-7">
+      <header className="justify-center px-3 py-1.5 text-sm font-medium text-center text-[#4A90E2] uppercase whitespace-nowrap border-[1px] border-[#4A90E2] rounded-lg">
         {type}
       </header>
-      <section className="flex gap-2 items-center mt-3.5 text-xs font-medium uppercase whitespace-nowrap text-neutral-500">
-        <time className="self-stretch my-auto">마감일</time>
+      <section className="flex gap-2 items-center mt-4 text-xs font-medium uppercase whitespace-nowrap text-neutral-500">
+        <time className="self-stretch">마감일</time>
         <span className="self-stretch">|</span>
-        <time className="self-stretch my-auto">{date}</time>
+        <time className="self-stretch">{new Date(date).toLocaleDateString()}</time>
       </section>
-      <h2 className="mt-5 text-2xl font-semibold text-black uppercase line-clamp-2">
+      <h2 className="mt-4 text-xl font-semibold text-black uppercase line-clamp-2">
         {title}
       </h2>
       <section className="flex gap-1 mt-10 font-medium text-center text-black uppercase whitespace-nowrap max-md:mt-10">
         {positions.map((position, index) => (
-          <span key={index} className="justify-center px-4 py-1.5 text-xs bg-cyan-200 rounded-[74.5px]">
+          <span key={index} className="justify-center px-4 py-1.5 text-xs border-[1px] border-[#4A90E2] rounded-lg">
             {position}
           </span>
         ))}
       </section>
-      <section className="flex gap-1.5 mt-3">
-        <div className="shrink-0 self-start rounded-full bg-zinc-300 h-[34px] w-[34px]" />
-        <div className="shrink-0 w-9 rounded-full bg-zinc-300 h-[34px]" />
-        <div className="shrink-0 rounded-full bg-zinc-300 h-[35px] w-[35px]" />
+      <section className="flex gap-2 mt-4">
+        {techStacks.map((tech, index) => (
+          <div key={index} className="shrink-0 rounded-full h-8 w-8 flex items-center justify-center">
+            {techStackImages[tech] ? (
+              <img src={techStackImages[tech]} alt={tech} className="h-6 w-6" />
+            ) : (
+              <div className="text-[#4A90E2]">{tech}</div>
+            )}
+          </div>
+        ))}
       </section>
     </article>
   );
@@ -83,14 +145,14 @@ const MyPastePage: React.FC = () => {
   }
 
   const Nav: React.FC<NavProps> = ({ items }) => (
-    <nav className="flex flex-col grow items-start pt-16 pr-20 pb-11 pl-7 w-full text-xl text-black bg-amber-100 max-md:px-5 max-md:mt-10">
+    <nav className="flex flex-col grow items-start pt-16 pr-20 pb-11 pl-7 w-full text-xl text-black bg-[#E6F0FA] max-md:px-5 max-md:mt-10">
       <h2 className="ml-5 text-4xl font-extrabold uppercase max-md:ml-2.5">마이페이지</h2>
       {items.map((item, index) => (
-        <a key={index} href={item.href} className={`mt-20 ml-7 uppercase max-md:mt-10 max-md:ml-2.5 ${item.text === '내가 쓴 글' ? 'font-extrabold' : 'font-medium'}`}>
+        <a key={index} href={item.href} className={`mt-16 ml-7 uppercase max-md:mt-10 max-md:ml-2.5 ${item.text === '내가 쓴 글' ? 'font-extrabold' : 'font-medium'}`}>
           {item.text}
         </a>
       ))}
-      <div className="text-8xl mt-[695px] max-md:mt-10 max-md:text-4xl">HOLA</div>
+      <div className="text-8xl mt-auto max-md:mt-10 max-md:text-4xl">HOLA</div>
     </nav>
   );
 
@@ -117,6 +179,8 @@ const MyPastePage: React.FC = () => {
                       date={project.deadline}
                       positions={project.positions}
                       type={project.type}
+                      closing={project.closing}
+                      techStacks={project.techStacks}
                     />
                   </div>
                 ))}

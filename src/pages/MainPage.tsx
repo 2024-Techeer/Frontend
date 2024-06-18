@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Arrow from '../assets/images/Arrow.svg';
-import expand from '../assets/images/expand.svg';
 import Project from '../assets/images/Project.svg';
 import Study from '../assets/images/Study.svg';
 
@@ -59,11 +57,51 @@ const techStackImages = {
   Git,
 };
 
+const RecruitmentCard = ({ id, title, date, positions, type, closing, techStacks }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/Recruitment/${id}`);
+  };
+
+  return (
+    <article onClick={handleClick} className="relative cursor-pointer flex flex-col grow items-start p-6 mx-auto bg-white border-solid border-[1px] border-[#4A90E2] rounded-lg w-full h-full shadow-sm hover:shadow-md transition-shadow duration-300 ease-in-out">
+      <header className="justify-center px-3 py-1.5 text-sm font-medium text-center text-[#4A90E2] uppercase whitespace-nowrap border-[1px] border-[#4A90E2] rounded-lg">
+        {type}
+      </header>
+      <section className="flex gap-2 items-center mt-4 text-xs font-medium uppercase whitespace-nowrap text-neutral-500">
+        <time className="self-stretch">마감일</time>
+        <span className="self-stretch">|</span>
+        <time className="self-stretch">{new Date(date).toLocaleDateString()}</time>
+      </section>
+      <h2 className="mt-4 text-xl font-semibold text-black uppercase line-clamp-2">
+        {title}
+      </h2>
+      <section className="flex gap-1 mt-10 font-medium text-center text-black uppercase whitespace-nowrap max-md:mt-10">
+        {positions.map((position, index) => (
+          <span key={index} className="justify-center px-4 py-1.5 text-xs border-[1px] border-[#4A90E2] rounded-lg">
+            {position}
+          </span>
+        ))}
+      </section>
+      <section className="flex gap-2 mt-4">
+        {techStacks.map((tech, index) => (
+          <div key={index} className="shrink-0 rounded-full h-8 w-8 flex items-center justify-center bg-gray-100">
+            {techStackImages[tech] ? (
+              <img src={techStackImages[tech]} alt={tech} className="h-6 w-6" />
+            ) : (
+              <div className="text-[#4A90E2]">{tech}</div>
+            )}
+          </div>
+        ))}
+      </section>
+      
+    </article>
+  );
+};
+
 function MainPage() {
   const [recruitments, setRecruitments] = useState([]);
-  const [showPositionOptions, setShowPositionOptions] = useState(false);
-  const [showTechStackOptions, setShowTechStackOptions] = useState(false);
-  const [searchText, setSearchText] = useState('');
   const navigate = useNavigate();
 
   const fetchRecruitments = async () => {
@@ -94,144 +132,44 @@ function MainPage() {
     fetchRecruitments();
   }, []);
 
-  const togglePositionOptions = () => {
-    setShowPositionOptions(!showPositionOptions);
-  };
-
-  const toggleTechStackOptions = () => {
-    setShowTechStackOptions(!showTechStackOptions);
-  };
-
-  const handleSearchChange = (event) => {
-    setSearchText(event.target.value);
-  };
-
-  const handleRecruitmentClick = (recruitmentId) => {
-    navigate(`/Recruitment/${recruitmentId}`);
-  };
-
   return (
     <div className="flex flex-col items-center pt-7 bg-white shadow-sm">
       <div className="flex gap-5 px-5 w-full text-black whitespace-nowrap max-w-[1376px] max-md:flex-wrap max-md:max-w-full">
-        <Link to="/Main" className="flex-auto text-6xl max-md:text-4xl">
+        <Link to="/Main" className="flex-auto text-6xl max-md:text-4xl text-[#4A90E2]">
           HOLA
         </Link>
         <div className="flex gap-8 my-auto text-3xl font-bold">
-          <Link to="/write" className="flex-auto">
+          <Link to="/write" className="flex-auto text-[#4A90E2] bg-[#E6F0FA] px-4 py-2 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 ease-in-out">
             모집글 생성
           </Link>
-          <Link to="/myPaste" className="flex-auto">
+          <Link to="/myPaste" className="flex-auto text-[#4A90E2] bg-[#E6F0FA] px-4 py-2 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 ease-in-out">
             마이페이지
           </Link>
         </div>
       </div>
-      <div className="self-stretch mt-6 w-full bg-zinc-300 min-h-[4px] max-md:max-w-full" />
+      <div className="self-stretch mt-6 w-full bg-[#4A90E2] h-[4px] max-md:max-w-full" />
       <div className="flex flex-col mt-7 w-full max-w-[1252px] max-md:max-w-full">
-        <div className="justify-center items-center text-center self-center px-16 py-16 w-full text-4xl font-bold text-black bg-orange-100 rounded-3xl border border-black border-solid max-w-[1033px] max-md:px-5 max-md:max-w-full">
-          서비스 소개 배너
-        </div>
-        <div className="flex gap-5 self-start mt-14 ml-3 text-4xl font-bold whitespace-nowrap text-zinc-300 max-md:mt-10 max-md:ml-2.5">
-          <div className="grow text-black">전체</div>
-          <div className="flex-auto">프로젝트</div>
-          <div className="flex-auto">스터디</div>
-        </div>
-        <div className="flex gap-5 items-start mt-8 w-full font-bold text-black max-md:flex-wrap max-md:max-w-full">
-          <div className="relative flex flex-1 gap-5 mt-3 text-2xl">
-            <div
-              className="flex gap-5 items-start px-4 pt-3 whitespace-nowrap bg-amber-400 border border-black border-solid rounded-[50px] cursor-pointer"
-              onClick={togglePositionOptions}
-            >
-              <div>포지션</div>
-              <img loading="lazy" src={Arrow} className="shrink-0 aspect-square w-[30px]" />
-            </div>
-            {showPositionOptions && (
-              <div className="absolute top-14 left-0 bg-white border border-black rounded-lg shadow-lg z-10">
-                <div className="p-2">프론트엔드</div>
-                <div className="p-2">백엔드</div>
-                <div className="p-2">풀스택</div>
-              </div>
-            )}
-            <div
-              className="flex gap-5 px-4 py-3 bg-amber-400 border border-black border-solid rounded-[50px] cursor-pointer"
-              onClick={toggleTechStackOptions}
-            >
-              <div className="my-auto">기술 스택</div>
-              <img loading="lazy" src={Arrow} className="shrink-0 aspect-square w-[30px]" />
-            </div>
-            {showTechStackOptions && (
-              <div className="absolute top-14 left-40 bg-white border border-black rounded-lg shadow-lg z-10">
-                <div className="p-2">리액트</div>
-                <div className="p-2">자바</div>
-                <div className="p-2">파이썬</div>
-              </div>
-            )}
-          </div>
-        </div>
         <div className="px-5 mt-7 max-md:max-w-full">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 max-md:flex-col max-md:gap-0">
             {recruitments.length > 0 ? (
               recruitments.map((recruitment) => (
                 <div
                   key={recruitment.id}
-                  className="flex flex-col max-md:ml-0 max-md:w-full cursor-pointer"
-                  onClick={() => handleRecruitmentClick(recruitment.id)}
+                  className="flex flex-col max-md:ml-0 max-md:w-full cursor-pointer w-full h-[350px]"
                 >
-                  <div className="relative flex flex-col grow px-7 pt-7 pb-4 mx-auto w-full bg-white rounded-3xl border border-black border-solid max-md:px-5 max-md:mt-10">
-                    <div
-                      className={`flex gap-2.5 items-start px-6 py-0.5 text-base font-bold text-black whitespace-nowrap bg-yellow-100 rounded-[50px] max-md:px-5 ${
-                        recruitment.closing ? 'blur-[1px]' : ''
-                      }`}
-                    >
-                      <img
-                        loading="lazy"
-                        src={recruitment.type === 'study' ? Study : Project}
-                        className="shrink-0 self-start aspect-[0.93] w-[30px]"
-                      />
-                      <div className="flex-auto my-auto">{recruitment.type}</div>
-                    </div>
-                    <div className={`mt-6 text-base font-bold text-black ${recruitment.closing ? 'blur-[1px]' : ''}`}>
-                      마감일 | <span className="">{new Date(recruitment.deadline).toLocaleDateString()}</span>
-                    </div>
-                    <div
-                      className={`mt-6 text-base font-bold text-black max-md:mr-1.5 ${
-                        recruitment.closing ? 'blur-[1px]' : ''
-                      }`}
-                    >
-                      {recruitment.title}
-                    </div>
-                    <div
-                      className={`justify-center px-6 py-2 mt-6 text-base font-bold text-blue-600 whitespace-nowrap bg-zinc-300 rounded-[50px] max-md:px-5 ${
-                        recruitment.closing ? 'blur-[1px]' : ''
-                      }`}
-                    >
-                      {recruitment.positions}
-                    </div>
-                    <div className={`flex gap-3.5 mt-3 max-md:pr-5 ${recruitment.closing ? 'blur-[1px]' : ''}`}>
-                      {recruitment.techStacks.map((tech, index) => (
-                        <img
-                          key={index}
-                          src={techStackImages[tech]}
-                          alt={tech}
-                          className="shrink-0 aspect-square w-[25px] bg-gray-200 rounded-full flex items-center justify-center"
-                        />
-                      ))}
-                    </div>
-                    <div
-                      className={`z-10 shrink-0 h-0.5 border-2 border-solid bg-zinc-300 border-zinc-300 w-full max-md:mr-1.5 ${
-                        recruitment.closing ? 'blur-[1px]' : ''
-                      }`}
-                    />
-
-                    {recruitment.closing && (
-                      <div className="absolute inset-0 flex items-center justify-center text-red-600 font-bold text-4xl bg-white bg-opacity-75">
-                        마감
-                      </div>
-                    )}
-                  </div>
+                  <RecruitmentCard
+                    id={recruitment.id}
+                    title={recruitment.title}
+                    date={recruitment.deadline}
+                    positions={recruitment.positions}
+                    type={recruitment.type}
+                    closing={recruitment.closing}
+                    techStacks={recruitment.techStacks}
+                  />
                 </div>
               ))
             ) : (
-              <div className="text-center w-full">모집글이 없습니다.</div>
+              <div className="text-center w-full text-[#4A90E2]">모집글이 없습니다.</div>
             )}
           </div>
         </div>
