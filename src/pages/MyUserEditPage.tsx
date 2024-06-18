@@ -1,59 +1,62 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
 interface NavItem {
   href: string;
   text: string;
 }
+
 const navItems: NavItem[] = [
-  { href: '#profile', text: '프로필' },
-  { href: '#my-posts', text: '내가 쓴 글' },
-  { href: '#my-requests', text: '내가 신청한 글' },
+  { href: '/MyUserEdit', text: '프로필' },
+  { href: '/MyPaste', text: '내가 쓴 글' },
+  { href: '/MyRecruitment', text: '내가 신청한 글' },
 ];
-interface StackItem {
-  id: string;
-  text: string;
-}
-const stackItems: StackItem[] = [
-  { id: 'stack1', text: '관심 스택 1' },
-  { id: 'stack2', text: '관심 스택 2' },
-  { id: 'stack3', text: '관심 스택 3' },
-];
-interface NavProps {
-  items: NavItem[];
-}
-const Nav: React.FC<NavProps> = ({ items }) => (
-  <nav className="flex flex-col grow items-start pt-16 pr-20 pb-11 pl-7 w-full text-xl text-black bg-amber-100 max-md:px-5 max-md:mt-10">
-    <h2 className="ml-5 text-4xl font-extrabold uppercase max-md:ml-2.5">마이페이지</h2>
-    {items.map((item, index) => (
-      <a key={index} href={item.href} className={`mt-20 ml-7 uppercase max-md:mt-10 max-md:ml-2.5 ${item.text === '프로필' ? 'font-extrabold' : 'font-medium'}`}>
-        {item.text}
-      </a>
-    ))}
-    <div className="text-8xl mt-[695px] max-md:mt-10 max-md:text-4xl">HOLA</div>
-  </nav>
-);
-interface StackProps {
-  items: StackItem[];
-}
-const Stack: React.FC<StackProps> = ({ items }) => (
-  <div className="flex gap-5 mt-7 text-3xl font-light max-md:flex-wrap max-md:pr-5 max-md:max-w-full">
-    {items.map((item) => (
-      <div key={item.id}>{item.text}</div>
-    ))}
-  </div>
-);
+
 interface ProfileData {
+  id: number;
   photo: string;
   gender: string;
   intro: string;
   residence: string;
   status: string;
-  positions: number[];
-  techStacks: number[];
+  positions: string[];
+  techStacks: string[];
 }
+
+const techStackOptions = [
+  'Spring', 'Nodejs', 'Django', 'Flask', 'Ruby', 'php', 'Go', 
+  'MySQL', 'MongoDB', 'JavaScript', 'TypeScript', 'React', 'Vue', 
+  'Svelte', 'Nextjs', 'Flutter', 'Swift', 'Kotlin', 'ReactNative', 
+  'Unity', 'AWS', 'Docker', 'Kubernetes', 'Figma', 'Git'
+];
+
+const positionOptions = [
+  'backend', 'frontend', 'mobile'
+];
+
+const Nav: React.FC<{ items: NavItem[] }> = ({ items }) => (
+  <nav className="flex flex-col grow items-start pt-10 pr-16 pb-8 pl-6 w-full text-lg text-black bg-amber-100 max-md:px-4 max-md:mt-8">
+    <Link to="/Main" className="text-6xl mt-10 mb-10 max-md:mt-6 max-md:text-3xl">HOLA</Link>
+    <h2 className="ml-4 text-3xl font-extrabold max-md:ml-2.5">마이페이지</h2>
+    {items.map((item, index) => (
+      <Link
+        key={index}
+        to={item.href}
+        className={`mt-14 ml-5 uppercase max-md:mt-8 max-md:ml-2.5 ${item.text === '프로필' ? 'font-extrabold' : 'font-medium'}`}
+      >
+        {item.text}
+      </Link>
+    ))}
+  </nav>
+);
+
 const Profile: React.FC = () => {
-  const { userId } = useParams<{ userId: string }>();
   const [profileData, setProfileData] = useState<ProfileData | null>(null);
+  const [photo, setPhoto] = useState<File | null>(null);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const navigate = useNavigate();
+
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
@@ -61,7 +64,7 @@ const Profile: React.FC = () => {
         const headers = {
           'Authorization': `Bearer ${token}`
         };
-        const response = await fetch(`http://localhost:8085/api/v1/profiles/${userId}`, {headers});
+        const response = await fetch(`http://localhost:8085/api/v1/profiles/me`, { headers });
         const data: ProfileData = await response.json();
         setProfileData(data);
       } catch (error) {
@@ -69,51 +72,153 @@ const Profile: React.FC = () => {
       }
     };
     fetchProfileData();
-  }, [userId]);
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!profileData) return;
+
+    const token = localStorage.getItem('access_token');
+    const headers = {
+      'Authorization': `Bearer ${token}`
+    };
+
+    const formData = new FormData();
+    if (photo) {
+      formData.append('photo', photo);
+    }
+    const profileUpdateDto = {
+      gender: profileData.gender,
+      intro: profileData.intro,
+      residence: profileData.residence,
+      status: profileData.status,
+      positions: profileData.positions,
+      techStacks: profileData.techStacks,
+    };
+    formData.append('profile', new Blob([JSON.stringify(profileUpdateDto)], { type: 'application/json' }));
+
+    try {
+      await axios.put(`http://localhost:8085/api/v1/profiles/${profileData.id}`, formData, { headers });
+      alert('Profile updated successfully');
+      setIsEditMode(false); // 업데이트 후 조회 모드로 전환
+      navigate('/MyUserEdit');
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      alert('Error updating profile');
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    if (name === 'techStacks' || name === 'positions') {
+      const options = e.target.options;
+      const selectedValues: string[] = [];
+      for (let i = 0; i < options.length; i++) {
+        if (options[i].selected) {
+          selectedValues.push(options[i].value);
+        }
+      }
+      setProfileData(prevData => prevData ? { ...prevData, [name]: selectedValues } : null);
+    } else {
+      setProfileData(prevData => prevData ? { ...prevData, [name]: value } : null);
+    }
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setPhoto(e.target.files[0]);
+    }
+  };
+
   if (!profileData) {
     return <div>Loading...</div>;
   }
+
   return (
-    <section className="flex flex-col self-stretch px-5 my-auto text-4xl font-extrabold text-black uppercase max-md:mt-10 max-md:max-w-full">
-      <h1 className="text-5xl max-md:max-w-full max-md:text-4xl">프로필</h1>
-      <div className="mt-7">
-        <img src={profileData.photo} alt="Profile" className="rounded-full w-32 h-32" />
-      </div>
-      <h2 className="mt-20 max-md:mt-10 max-md:max-w-full">직무</h2>
-      <p className="mt-7 text-3xl font-light max-md:max-w-full">{profileData.positions.join(', ')}</p>
-      <h2 className="mt-16 max-md:mt-10 max-md:max-w-full">자기소개</h2>
-      <div className="shrink-0 mt-5 bg-white rounded-3xl border-2 border-solid border-neutral-400 h-[291px] p-5 max-md:max-w-full">
-        {profileData.intro}
-      </div>
-      <h2 className="mt-10 max-md:mt-10 max-md:max-w-full">관심 스택</h2>
-      <Stack items={profileData.techStacks.map((stack, index) => ({ id: `stack${index}`, text: `관심 스택 ${stack}` }))} />
-      <h2 className="mt-16 max-md:mt-10 max-md:max-w-full">거주지</h2>
-      <p className="mt-7 text-3xl font-light max-md:max-w-full">{profileData.residence}</p>
-      <h2 className="mt-16 max-md:mt-10 max-md:max-w-full">신분</h2>
-      <p className="mt-7 text-3xl font-light max-md:max-w-full">{profileData.status}</p>
-      <button className="justify-center self-start px-7 py-3.5 mt-14 text-2xl font-medium whitespace-nowrap bg-red-300 rounded-3xl max-md:px-5 max-md:mt-10">
-        수정
-      </button>
+    <section className="flex flex-col self-stretch px-4 my-auto text-3xl font-extrabold text-black max-md:mt-8 max-md:max-w-full">
+      <h1 className="text-4xl max-md:max-w-full max-md:text-3xl">프로필</h1>
+      {isEditMode ? (
+        <form onSubmit={handleSubmit} className="mt-6">
+          <div className="mt-6">
+            <img src={profileData.photo} alt="Profile" className="rounded-full w-24 h-24" />
+            <input type="file" onChange={handleFileChange} className="mt-4" />
+          </div>
+          <h2 className="mt-16 max-md:mt-8 max-md:max-w-full">분야</h2>
+          <select name="positions" multiple value={profileData.positions} onChange={handleChange} className="mt-4 text-xl font-light max-md:max-w-full">
+            {positionOptions.map((position, index) => (
+              <option key={index} value={position}>{position}</option>
+            ))}
+          </select>
+          <h2 className="mt-12 max-md:mt-8 max-md:max-w-full">자기소개</h2>
+          <textarea name="intro" value={profileData.intro} onChange={handleChange} className="shrink-0 mt-4 bg-white rounded-2xl border-2 border-solid border-neutral-400 h-[250px] p-4 max-md:max-w-full text-xl"></textarea>
+          <h2 className="mt-10 max-md:mt-8 max-md:max-w-full">관심 스택</h2>
+          <select name="techStacks" multiple value={profileData.techStacks} onChange={handleChange} className="mt-4 text-xl font-light max-md:max-w-full">
+            {techStackOptions.map((techStack, index) => (
+              <option key={index} value={techStack}>{techStack}</option>
+            ))}
+          </select>
+          <h2 className="mt-12 max-md:mt-8 max-md:max-w-full">거주지</h2>
+          <textarea name="residence" value={profileData.residence} onChange={handleChange} className="mt-4 text-xl font-light max-md:max-w-full" />
+          <h2 className="mt-12 max-md:mt-8 max-md:max-w-full">신분</h2>
+          <textarea name="status" value={profileData.status} onChange={handleChange} className="mt-4 text-xl font-light max-md:max-w-full" />
+          <h2 className="mt-12 max-md:mt-8 max-md:max-w-full">성별</h2>
+          <div className="mt-4 text-xl font-light max-md:max-w-full">
+            <label>
+              <input type="radio" name="gender" value="남" checked={profileData.gender === '남'} onChange={handleChange} /> 남
+            </label>
+            <label className="ml-4">
+              <input type="radio" name="gender" value="여" checked={profileData.gender === '여'} onChange={handleChange} /> 여
+            </label>
+          </div>
+          <div className="flex gap-4 mt-12">
+            <button type="submit" className="justify-center self-start px-6 py-3 text-xl font-medium whitespace-nowrap bg-red-300 rounded-2xl max-md:px-4">
+              수정
+            </button>
+            <button onClick={() => setIsEditMode(false)} type="button" className="justify-center self-start px-6 py-3 text-xl font-medium whitespace-nowrap bg-gray-300 rounded-2xl max-md:px-4">
+              수정 취소
+            </button>
+          </div>
+        </form>
+      ) : (
+        <div className="mt-6">
+          <div className="mt-6">
+            <img src={profileData.photo} alt="Profile" className="rounded-full w-24 h-24" />
+          </div>
+          <h2 className="mt-16 max-md:mt-8 max-md:max-w-full">분야</h2>
+          <p className="mt-4 text-xl font-light max-md:max-w-full">{profileData.positions.join(', ')}</p>
+          <h2 className="mt-12 max-md:mt-8 max-md:max-w-full">자기소개</h2>
+          <div className="shrink-0 mt-4 bg-white rounded-2xl border-2 border-solid border-neutral-400 h-[250px] p-4 max-md:max-w-full text-xl">
+            {profileData.intro}
+          </div>
+          <h2 className="mt-10 max-md:mt-8 max-md:max-w-full">관심 스택</h2>
+          <p className="mt-4 text-xl font-light max-md:max-w-full">{profileData.techStacks.join(', ')}</p>
+          <h2 className="mt-12 max-md:mt-8 max-md:max-w-full">거주지</h2>
+          <p className="mt-4 text-xl font-light max-md:max-w-full">{profileData.residence}</p>
+          <h2 className="mt-12 max-md:mt-8 max-md:max-w-full">신분</h2>
+          <p className="mt-4 text-xl font-light max-md:max-w-full">{profileData.status}</p>
+          <h2 className="mt-12 max-md:mt-8 max-md:max-w-full">성별</h2>
+          <p className="mt-4 text-xl font-light max-md:max-w-full">{profileData.gender}</p>
+          <button onClick={() => setIsEditMode(true)} className="justify-center self-start px-6 py-3 mt-12 text-xl font-medium whitespace-nowrap bg-red-300 rounded-2xl max-md:px-4">
+            수정하기
+          </button>
+        </div>
+      )}
     </section>
   );
 };
+
 const MyUserEditPage: React.FC = () => (
   <div className="bg-white">
-    <div className="flex gap-5 max-md:flex-col max-md:gap-0">
+    <div className="flex gap-4 max-md:flex-col max-md:gap-0">
       <aside className="flex flex-col w-[28%] max-md:ml-0 max-md:w-full">
         <Nav items={navItems} />
       </aside>
-      <section className="flex flex-col ml-5 w-[72%] max-md:ml-0 max-md:w-full">
+      <section className="flex flex-col ml-4 w-[72%] max-md:ml-0 max-md:w-full">
         <Profile />
       </section>
     </div>
   </div>
 );
+
 export default MyUserEditPage;
-
-
-
-
-
-
-

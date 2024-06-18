@@ -80,6 +80,10 @@ function RecruitmentPage_Owner() {
     navigate(`/viewSubmission/${submissionId}?recruitmentId=${recruitmentId}`);
   };
 
+  const handleViewProfile = (userId) => {
+    navigate(`/Profile/${userId}`);
+  };
+
   if (!recruitment) {
     return <div>Loading...</div>;
   }
@@ -176,34 +180,33 @@ function RecruitmentPage_Owner() {
 
         <div className="border-t border-4 border-[#D9D9D9] flex-grow mt-10"></div>
         <div className="text-5xl font-bold text-zinc-800 mt-10 ml-20">프로젝트 소개</div>
-        <div className="text-2xl text-zinc-800 mt-10 ml-20">{recruitment.description}</div>
+        <div className="text-2xl text-zinc-800 mt-10 ml-20">{recruitment.introduction}</div>
         
         <div className="mt-52 text-3xl font-bold text-black max-md:mt-10 max-md:max-w-full max-md:text-4xl">지원자</div>
         <div className="shrink-0 mt-10 h-1 bg-zinc-300 max-md:max-w-full" />
         <div className="flex gap-5 mt-16 w-full text-2xl font-bold text-black whitespace-nowrap max-md:flex-wrap max-md:mt-10">
         <div className="w-full flex flex-wrap justify-start gap-5 mt-5">
-  {applicants.map((applicant, index) => (
-    <div className="flex flex-col items-center m-2" style={{ flex: '1 0 calc(25% - 10px)' }}>
-      <img loading="lazy" src={Profile} className="shrink-0 aspect-square w-[50px]" />
-      <div className="my-auto text-center">{applicant.userName}</div>
-      <div className="flex items-center justify-center gap-2 mt-2 w-full">
-        <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-1 text-lg rounded">
-          프로필 보기
-        </button>
-        <button 
-          className="bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-1 text-lg rounded"
-          onClick={() => handleViewSubmission(applicant.submissionId)}
-        >
-          지원서 보기
-        </button>
-      </div>
-    </div>
-  ))}
-</div>
-
-
-
-
+          {applicants.map((applicant, index) => (
+            <div key={index} className="flex flex-col items-center m-2" style={{ flex: '1 0 calc(25% - 10px)' }}>
+              <img loading="lazy" src={Profile} className="shrink-0 aspect-square w-[50px]" />
+              <div className="my-auto text-center">{applicant.userName}</div>
+              <div className="flex items-center justify-center gap-2 mt-2 w-full">
+                <button 
+                  className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-1 text-lg rounded"
+                  onClick={() => handleViewProfile(applicant.userId)}
+                >
+                  프로필 보기
+                </button>
+                <button 
+                  className="bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-1 text-lg rounded"
+                  onClick={() => handleViewSubmission(applicant.submissionId)}
+                >
+                  지원서 보기
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
         </div>
        </div>
       </div>
