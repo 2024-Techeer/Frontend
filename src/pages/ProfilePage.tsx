@@ -39,7 +39,7 @@ const ProfilePage: React.FC = () => {
 
   return (
     <section className="flex flex-col items-center self-stretch px-4 my-auto text-black max-md:mt-8 max-md:max-w-full">
-      <Link to="/Main" className="text-5xl mt-8 mb-8 text-[#4A90E2] max-md:mt-6 max-md:text-3xl">HOLA</Link>
+      <Link to="/Main" className="text-5xl mt-8 mb-8 text-[#4A90E2] max-md:mt-6 max-md:text-3xl">Gaemoim</Link>
       <div className="mt-6 flex flex-col items-center">
         <img src={profileData.photo} alt="Profile" className="rounded-full w-24 h-24" />
         <h2 className="text-3xl text-[#4A90E2] mt-4">{profileData.name}</h2>

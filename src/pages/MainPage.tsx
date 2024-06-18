@@ -136,7 +136,7 @@ function MainPage() {
     <div className="flex flex-col items-center pt-7 bg-white shadow-sm">
       <div className="flex gap-5 px-5 w-full text-black whitespace-nowrap max-w-[1376px] max-md:flex-wrap max-md:max-w-full">
         <Link to="/Main" className="flex-auto text-6xl max-md:text-4xl text-[#4A90E2]">
-          HOLA
+          Gaemoim
         </Link>
         <div className="flex gap-8 my-auto text-3xl font-bold">
           <Link to="/write" className="flex-auto text-[#4A90E2] bg-[#E6F0FA] px-4 py-2 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 ease-in-out">

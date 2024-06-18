@@ -47,7 +47,6 @@ const Nav: React.FC<{ items: NavItem[] }> = ({ items }) => (
         {item.text}
       </Link>
     ))}
-    <Link to="/Main" className="text-8xl mt-auto text max-md:mt-10 max-md:text-4xl">HOLA</Link>
   </nav>
 );
 

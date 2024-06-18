@@ -152,7 +152,6 @@ const MyPastePage: React.FC = () => {
           {item.text}
         </a>
       ))}
-      <div className="text-8xl mt-auto max-md:mt-10 max-md:text-4xl">HOLA</div>
     </nav>
   );
 
