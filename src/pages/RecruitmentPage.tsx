@@ -119,7 +119,7 @@ function RecruitmentPage() {
           <div className="self-stretch my-auto font-bold">{recruitment.name}</div>
           <div className="self-stretch my-auto">|</div>
           <div className="flex-auto self-stretch my-auto text-neutral-500">
-            {new Date(recruitment.startDate).toLocaleDateString()}
+            {new Date(recruitment.createdDate).toLocaleDateString()}
           </div>
         </div>
       </div>
