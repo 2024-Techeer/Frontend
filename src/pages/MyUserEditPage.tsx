@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Profile from '../assets/images/Profile.svg';
-
+import ProfileImage from '../assets/images/Profile.svg'; // 변경: Profile -> ProfileImage
 
 interface NavItem {
   href: string;
@@ -52,7 +51,7 @@ const Nav: React.FC<{ items: NavItem[] }> = ({ items }) => (
   </nav>
 );
 
-const Profile: React.FC = () => {
+const UserProfile: React.FC = () => { // 변경: Profile -> UserProfile
   const [profileData, setProfileData] = useState<ProfileData | null>(null);
   const [photo, setPhoto] = useState<File | null>(null);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -101,7 +100,7 @@ const Profile: React.FC = () => {
 
     try {
       await axios.put(`http://localhost:8085/api/v1/profiles/${profileData.id}`, formData, { headers });
-      alert('Profile updated successfully');
+      alert('프로필 수정 완료!');
       setIsEditMode(false); // 업데이트 후 조회 모드로 전환
       navigate('/MyUserEdit');
     } catch (error) {
@@ -142,7 +141,7 @@ const Profile: React.FC = () => {
       {isEditMode ? (
         <form onSubmit={handleSubmit} className="mt-6">
           <div className="mt-6">
-            <img src={profileData.photo ? profileData.photo : Profile} alt="Profile" className="rounded-full w-24 h-24" />
+            <img src={profileData.photo ? profileData.photo : ProfileImage} alt="Profile" className="rounded-full w-24 h-24" /> {/* 변경: Profile -> ProfileImage */}
             <input type="file" onChange={handleFileChange} className="mt-4" />
           </div>
           <h2 className="mt-16 text-[#4A90E2] max-md:mt-8 max-md:max-w-full">분야</h2>
@@ -184,7 +183,7 @@ const Profile: React.FC = () => {
       ) : (
         <div className="mt-6">
           <div className="mt-6">
-            <img src={profileData.photo} alt="Profile" className="rounded-full w-24 h-24" />
+            <img src={profileData.photo ? profileData.photo : ProfileImage} alt="Profile" className="rounded-full w-24 h-24" /> {/* 변경: Profile -> ProfileImage */}
           </div>
           <h2 className="mt-16 text-[#4A90E2] max-md:mt-8 max-md:max-w-full">분야</h2>
           <p className="mt-4 text-xl font-light max-md:max-w-full">{profileData.positions.join(', ')}</p>
@@ -216,7 +215,7 @@ const MyUserEditPage: React.FC = () => (
         <Nav items={navItems} />
       </aside>
       <section className="flex flex-col ml-5 w-[76%] max-md:ml-0 max-md:w-full">
-        <Profile />
+        <UserProfile /> {/* 변경: Profile -> UserProfile */}
       </section>
     </div>
   </div>
