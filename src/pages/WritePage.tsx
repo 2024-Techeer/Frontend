@@ -47,11 +47,11 @@ function WritePage() {
       }
 
       const data = await response.json();
-      console.log('Server response:', data); // 응답 데이터를 출력합니다.
+      console.log('Server response:', data);
 
-      const recruitmentId = data.recruitmentId; // 올바른 키를 사용하여 ID를 추출합니다.
+      const recruitmentId = data.recruitmentId;
       if (recruitmentId) {
-        navigate(`/Application/${recruitmentId}`); // 모집글 ID를 이용해 신청서 생성 페이지로 이동
+        navigate(`/Application/${recruitmentId}`);
       } else {
         console.error('Recruitment ID not found in the response');
       }
@@ -144,73 +144,73 @@ function WritePage() {
   return (
     <div className="flex flex-col pt-7 pb-14 bg-white">
       <div className="flex gap-5 self-center px-5 w-full text-black whitespace-nowrap max-w-[1376px] max-md:flex-wrap max-md:max-w-full">
-        <Link to="/Main" className="flex-auto text-6xl max-md:text-4xl">
-          HOLA
+        <Link to="/Main" className="flex-auto text-6xl max-md:text-4xl text-[#4A90E2]">
+          Gaemoim
         </Link>
       </div>
-      <div className="mt-6 w-full bg-zinc-300 min-h-[4px] max-md:max-w-full" />
+      <div className="mt-6 w-full bg-[#4A90E2] min-h-[4px] max-md:max-w-full" />
       <div className="flex flex-col px-20 mt-9 w-full max-md:px-5 max-md:max-w-full">
-        <img loading="lazy" src={BackButton} className="aspect-square w-[50px] max-md:ml-0.5" alt="Back" />
-        <div className="self-start mt-7 ml-72 text-4xl font-bold text-black max-md:max-w-full">
-          프로젝트 기본 정보를 입력해주세요.
+        <div className="flex items-center">
+          <div className="ml-5 text-4xl font-bold text-[#4A90E2] max-md:max-w-full">
+            프로젝트 기본 정보를 입력해주세요.
+          </div>
         </div>
         <form onSubmit={handleSubmit} className="flex flex-col mt-7 space-y-6">
           <div className="self-center w-full max-w-[1162px]">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="flex flex-col">
-                <div className="text-2xl font-bold text-neutral-500">제목</div>
+                <div className="text-2xl font-bold text-[#4A90E2]">제목</div>
                 <input
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="mt-3 p-3 bg-white border border-black border-solid"
+                  className="mt-3 p-3 bg-white border border-[#4A90E2] rounded-lg"
                   placeholder="제목을 입력해주세요"
                 />
               </div>
               <div className="flex flex-col">
-                <div className="text-2xl font-bold text-neutral-500">모집 구분</div>
+                <div className="text-2xl font-bold text-[#4A90E2]">모집 구분</div>
                 <select
                   value={type}
                   onChange={(e) => setType(e.target.value)}
-                  className="mt-3 p-3 bg-white border border-black border-solid"
+                  className="mt-3 p-3 bg-white border border-[#4A90E2] rounded-lg"
                 >
                   <option value="프로젝트">프로젝트</option>
                   <option value="스터디">스터디</option>
                 </select>
               </div>
               <div className="flex flex-col">
-                <div className="text-2xl font-bold text-neutral-500">모집 인원</div>
+                <div className="text-2xl font-bold text-[#4A90E2]">모집 인원</div>
                 <input
                   type="number"
                   value={number}
                   onChange={(e) => setNumber(e.target.value)}
-                  className="mt-3 p-3 bg-white border border-black border-solid"
+                  className="mt-3 p-3 bg-white border border-[#4A90E2] rounded-lg"
                   placeholder="모집 인원 수"
                 />
               </div>
-
               <div className="flex flex-col">
-                <div className="text-2xl font-bold text-neutral-500">시작 ~ 종료</div>
+                <div className="text-2xl font-bold text-[#4A90E2]">시작 ~ 종료</div>
                 <input
                   type="date"
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
-                  className="mt-3 p-3 bg-white border border-black border-solid"
+                  className="mt-3 p-3 bg-white border border-[#4A90E2] rounded-lg"
                 />
                 <input
                   type="date"
                   value={endDate}
                   onChange={(e) => setEndDate(e.target.value)}
-                  className="mt-3 p-3 bg-white border border-black border-solid"
+                  className="mt-3 p-3 bg-white border border-[#4A90E2] rounded-lg"
                 />
               </div>
               <div className="flex flex-col">
-                <div className="text-2xl font-bold text-neutral-500">기술 스택</div>
+                <div className="text-2xl font-bold text-[#4A90E2]">기술 스택</div>
                 <select
                   multiple
                   value={techStackIds}
                   onChange={(e) => handleMultiSelectChange(e, setTechStacks)}
-                  className="mt-3 p-3 bg-white border border-black border-solid"
+                  className="mt-3 p-3 bg-white border border-[#4A90E2] rounded-lg"
                 >
                   <option value="1">Spring</option>
                   <option value="2">Node</option>
@@ -240,12 +240,12 @@ function WritePage() {
                 </select>
               </div>
               <div className="flex flex-col">
-                <div className="text-2xl font-bold text-neutral-500">모집 포지션</div>
+                <div className="text-2xl font-bold text-[#4A90E2]">모집 포지션</div>
                 <select
                   multiple
                   value={positionIds}
                   onChange={(e) => handleMultiSelectChange(e, setPositions)}
-                  className="mt-3 p-3 bg-white border border-black border-solid"
+                  className="mt-3 p-3 bg-white border border-[#4A90E2] rounded-lg"
                 >
                   <option value="1">프론트엔드</option>
                   <option value="2">백엔드</option>
@@ -253,36 +253,38 @@ function WritePage() {
                 </select>
               </div>
               <div className="flex flex-col">
-                <div className="text-2xl font-bold text-neutral-500">모집 마감일</div>
+                <div className="text-2xl font-bold text-[#4A90E2]">모집 마감일</div>
                 <input
                   type="date"
                   value={deadline}
                   onChange={(e) => setDeadline(e.target.value)}
-                  className="mt-3 p-3 bg-white border border-black border-solid"
+                  className="mt-3 p-3 bg-white border border-[#4A90E2] rounded-lg"
                 />
               </div>
             </div>
           </div>
-          <div className="self-center w-full max-w-[1162px]">
+          <div className="self-center w-full max-w-[1162px] mb-10">
             <div className="flex flex-col mt-5">
-              <div className="text-2xl font-bold text-neutral-500">프로젝트에 대해 소개해주세요.</div>
+              <div className="text-2xl font-bold text-[#4A90E2]">프로젝트에 대해 소개해주세요.</div>
               <ReactQuill
-                value={introduction}
-                modules={modules()}
-                ref={quillRef}
-                onChange={handleIntroductionChange}
-                className="mt-3 bg-white border border-black border-solid h-64"
+              value={introduction}
+              modules={modules()}
+              ref={quillRef}
+              onChange={handleIntroductionChange}
+              className="mt-3 bg-white border border-[#4A90E2] rounded-lg h-96"
               />
-            </div>
-          </div>
-          <div className="flex gap-5 justify-end self-end mt-11 text-2xl font-bold">
-            <button type="button" className="px-9 py-4 text-black whitespace-nowrap bg-zinc-300">
-              취소
-            </button>
-            <button type="submit" className="px-9 py-4 text-white bg-black">
+              </div>
+              </div>
+
+          <div className="flex gap-5 justify-end self-end text-2xl font-bold" style={{ marginTop: '100px' }}>
+            <button type="submit" className="px-9 py-4 text-white bg-[#4A90E2] rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 ease-in-out">
               글 등록
             </button>
+            <button type="button" className="px-9 py-4 text-[#4A90E2] whitespace-nowrap bg-white border border-[#4A90E2] rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 ease-in-out">
+              취소
+            </button>
           </div>
+
         </form>
       </div>
     </div>

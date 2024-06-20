@@ -102,13 +102,12 @@ function RecruitmentPage() {
   return (
     <div className="flex flex-col items-center pt-7 pb-12 bg-white">
       <div className="flex gap-5 px-5 w-full text-black whitespace-nowrap max-w-[1376px] max-md:flex-wrap max-md:max-w-full">
-        <Link to="/Main" className="flex-auto text-6xl max-md:text-4xl">
-          HOLA
+        <Link to="/Main" className="flex-auto text-6xl max-md:text-4xl text-[#4A90E2]">
+          Gaemoim
         </Link>
       </div>
-      <div className="self-stretch mt-6 w-full bg-zinc-300 min-h-[4px] max-md:max-w-full" />
-      <div className="flex flex-col items-start mt-9 w-full text-2xl font-bold text-black max-w-[1312px] max-md:max-w-full">
-        <img loading="lazy" src={BackButton} className="aspect-square w-[50px]" alt="Back" />
+      <div className="self-stretch mt-6 w-full bg-[#4A90E2] min-h-[4px] max-md:max-w-full" />
+      <div className="flex flex-col items-start mt-9 w-full text-2xl font-bold text-[#4A90E2] max-w-[1312px] max-md:max-w-full">
         <div className="mt-7 ml-20 text-3xl max-md:max-w-full">{recruitment.title}</div>
         <div className="flex gap-5 items-center mt-12 ml-20 whitespace-nowrap max-md:mt-10 max-md:ml-2.5">
           <img loading="lazy" src={Profile} className="shrink-0 self-stretch aspect-square w-[50px]" alt="Profile" />
@@ -120,60 +119,57 @@ function RecruitmentPage() {
         </div>
       </div>
       <div className="flex flex-col mt-6 w-full max-w-[1334px] max-md:max-w-full">
-        <div className="shrink-0 h-1 bg-zinc-300 max-md:max-w-full" />
+        <div className="shrink-0 h-1 bg-[#4A90E2] max-md:max-w-full" />
         <div className="self-center mt-16 w-full max-w-[1080px] max-md:mt-10 max-md:max-w-full">
-          <div className="flex gap-5 max-md:flex-col max-md:gap-0">
-            <div className="flex flex-col w-[32%] max-md:ml-0 max-md:w-full">
-              <div className="flex grow gap-5 mt-2.5 text-2xl font-bold max-md:mt-10">
-                <div className="flex flex-col flex-1 text-neutral-500 ml-20">
+          <div className="flex flex-col gap-8 max-md:flex-col max-md:gap-0">
+            <div className="flex flex-col w-full max-md:ml-0 max-md:w-full">
+              <div className="flex flex-col gap-10 mt-4 text-2xl font-bold max-md:mt-10">
+                <div className="flex justify-between items-center text-[#4A90E2] ml-20 mr-20">
                   <div>모집 구분</div>
-                  <div className="mt-12 max-md:mt-10">모집 인원</div>
-                  <div className="mt-14 max-md:mt-10">모집 분야</div>
+                  <div className="text-black ml-2">{recruitment.type}</div>
                 </div>
-                <div className="flex flex-col flex-1 text-black whitespace-nowrap">
-                  <div>{recruitment.type}</div>
-                  <div className="mt-12 max-md:mt-10">{recruitment.number}</div>
-                  <div className="mt-14 max-md:mt-10">{recruitment.positions.join(', ')}</div>
+                <div className="flex justify-between items-center text-[#4A90E2] ml-20 mr-20">
+                  <div>모집 인원</div>
+                  <div className="text-black ml-2">{recruitment.number}</div>
                 </div>
-              </div>
-              <div className="flex flex-col mt-12 text-2xl font-bold text-neutral-500 max-md:mt-10 ml-20">
-                <div className="flex items-center">
+                <div className="flex justify-between items-center text-[#4A90E2] ml-20 mr-20">
+                  <div>모집 분야</div>
+                  <div className="text-black ml-2">{recruitment.positions.join(', ')}</div>
+                </div>
+                <div className="flex justify-between items-center text-[#4A90E2] ml-20 mr-20">
                   <div>사용 언어</div>
-                  <div className="flex ml-5">
+                  <div className="flex ml-2">
                     {recruitment.techStacks.map((stack) => (
                       <img
                         key={stack}
                         loading="lazy"
                         src={techStackImages[stack]}
-                        className="shrink-0 w-12 h-12 aspect-square ml-5"
+                        className="shrink-0 w-12 h-12 aspect-square ml-2"
                         alt={stack}
                       />
                     ))}
                   </div>
                 </div>
-              </div>
-            </div>
-
-            <div className="flex flex-col w-[68%] max-md:ml-0 max-md:w-full">
-              <div className="flex grow gap-5 mt-2.5 text-2xl font-bold max-md:mt-10">
-                <div className="flex flex-col flex-1 text-neutral-500 ml-72">
+                <div className="flex justify-between items-center text-[#4A90E2] ml-20 mr-20">
                   <div>시작 예정</div>
-                  <div className="mt-12 max-md:mt-10">종료 예정</div>
-                  <div className="mt-14 max-md:mt-10">마감일</div>
+                  <div className="text-black ml-2">{new Date(recruitment.startDate).toLocaleDateString()}</div>
                 </div>
-                <div className="flex flex-col flex-1 text-black whitespace-nowrap">
-                  <div>{new Date(recruitment.startDate).toLocaleDateString()}</div>
-                  <div className="mt-12 max-md:mt-10">{new Date(recruitment.endDate).toLocaleDateString()}</div>
-                  <div className="mt-14 max-md:mt-10">{new Date(recruitment.deadline).toLocaleDateString()}</div>
+                <div className="flex justify-between items-center text-[#4A90E2] ml-20 mr-20">
+                  <div>종료 예정</div>
+                  <div className="text-black ml-2">{new Date(recruitment.endDate).toLocaleDateString()}</div>
+                </div>
+                <div className="flex justify-between items-center text-[#4A90E2] ml-20 mr-20">
+                  <div>마감일</div>
+                  <div className="text-black ml-2">{new Date(recruitment.deadline).toLocaleDateString()}</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="border-t border-4 border-[#D9D9D9] flex-grow mt-10"></div>
-        <div className="text-5xl font-bold text-zinc-800 mt-10 ml-40">프로젝트 소개</div>
+        <div className="border-t border-4 border-[#4A90E2] flex-grow mt-10"></div>
+        <div className="text-5xl font-bold text-[#4A90E2] mt-10 ml-40">프로젝트 소개</div>
         <div
-          className="text-2xl text-zinc-800 mt-10 ml-40"
+          className="text-2xl text-black mt-10 ml-40"
           dangerouslySetInnerHTML={{ __html: sanitizedIntroduction }}
         />
         <div className="flex justify-end">
