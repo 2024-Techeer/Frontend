@@ -42,7 +42,7 @@ const RegisterPage: React.FC = () => {
     }
 
     try {
-      const response = await fetch('http://backend:8085/api/v1/auth/register', {
+      const response = await fetch('http://localhost/api/v1/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -109,7 +109,7 @@ const RegisterPage: React.FC = () => {
             </button>
           </div>
           <div className="flex justify-center w-full mt-4">
-            <Link to="/login">
+            <Link to="/">
               <span className="text-lg text-[#4A90E2] cursor-pointer hover:underline">
                 로그인
               </span>
