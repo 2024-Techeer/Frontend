@@ -102,9 +102,9 @@ function RecruitmentPage() {
   return (
     <div className="flex flex-col items-center pt-7 pb-12 bg-white">
       <div className="flex gap-5 px-5 w-full text-black whitespace-nowrap max-w-[1376px] max-md:flex-wrap max-md:max-w-full">
-        <Link to="/Main" className="flex-auto text-6xl max-md:text-4xl text-[#4A90E2]">
-          Gaemoim
-        </Link>
+      <Link to="/Main" className="flex-auto text-6xl max-md:text-4xl text-[#4A90E2] font-nunito">
+  Gaemoim
+</Link>
       </div>
       <div className="self-stretch mt-6 w-full bg-[#4A90E2] min-h-[4px] max-md:max-w-full" />
       <div className="flex flex-col items-start mt-9 w-full text-2xl font-bold text-[#4A90E2] max-w-[1312px] max-md:max-w-full">
