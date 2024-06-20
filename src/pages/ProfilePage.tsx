@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
+import Profile from '../assets/images/Profile.svg';
 
 interface ProfileData {
   name: string;
@@ -43,7 +44,7 @@ const ProfilePage: React.FC = () => {
   Gaemoim
 </Link>
       <div className="mt-6 flex flex-col items-center">
-        <img src={profileData.photo} alt="Profile" className="rounded-full w-24 h-24" />
+        <img src={profileData.photo ? profileData.photo : Profile} alt="Profile" className="rounded-full w-24 h-24" />
         <h2 className="text-3xl text-[#4A90E2] mt-4">{profileData.name}</h2>
       </div>
       <div className="flex justify-around w-full max-w-2xl mt-10">

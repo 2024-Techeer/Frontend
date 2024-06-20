@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Profile from '../assets/images/Profile.svg';
+
 
 interface NavItem {
   href: string;
@@ -140,7 +142,7 @@ const Profile: React.FC = () => {
       {isEditMode ? (
         <form onSubmit={handleSubmit} className="mt-6">
           <div className="mt-6">
-            <img src={profileData.photo} alt="Profile" className="rounded-full w-24 h-24" />
+            <img src={profileData.photo ? profileData.photo : Profile} alt="Profile" className="rounded-full w-24 h-24" />
             <input type="file" onChange={handleFileChange} className="mt-4" />
           </div>
           <h2 className="mt-16 text-[#4A90E2] max-md:mt-8 max-md:max-w-full">분야</h2>

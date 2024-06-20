@@ -110,7 +110,12 @@ function RecruitmentPage() {
       <div className="flex flex-col items-start mt-9 w-full text-2xl font-bold text-[#4A90E2] max-w-[1312px] max-md:max-w-full">
         <div className="mt-7 ml-20 text-3xl max-md:max-w-full">{recruitment.title}</div>
         <div className="flex gap-5 items-center mt-12 ml-20 whitespace-nowrap max-md:mt-10 max-md:ml-2.5">
-          <img loading="lazy" src={Profile} className="shrink-0 self-stretch aspect-square w-[50px]" alt="Profile" />
+        <img loading="lazy" 
+        src={recruitment.photo ? recruitment.photo : Profile} 
+        className="shrink-0 self-stretch aspect-square w-[50px]" 
+        alt="Profile" 
+        />
+
           <div className="self-stretch my-auto font-bold">{recruitment.name}</div>
           <div className="self-stretch my-auto">|</div>
           <div className="flex-auto self-stretch my-auto text-neutral-500">
