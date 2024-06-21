@@ -87,7 +87,7 @@ function WritePage() {
         const range = quill.getSelection(true);
 
         try {
-          const response = await fetch('http://www.gaemoim.site/api/v1/recruitments/image', {
+          const response = await fetch('http://www.gaemoim.site/api/v1/recruitments/image', {
             method: 'POST',
             headers: {
               Authorization: `Bearer ${localStorage.getItem('access_token')}`,
